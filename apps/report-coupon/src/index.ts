@@ -16,11 +16,11 @@ import { AutoRouter, error, IRequest, json } from "itty-router";
 
 const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
 
-router.post("/coupon/report", () => {
-
+router.post("/coupon/report", (request, env) => {
+	
 });
 
-router.get("/coupon", () => {
+router.get("/coupon", (request, env) => {
 	return "Hello world";
 });
 
