@@ -13,7 +13,7 @@
 
 import { WorkerEntrypoint } from "cloudflare:workers";
 
-export class CouponReport extends WorkerEntrypoint {
+export default class CouponReport extends WorkerEntrypoint {
 
 	async fetch(request: Request): Promise<Response> {
 		return new Response('Hello World!');
