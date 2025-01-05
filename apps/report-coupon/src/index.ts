@@ -12,11 +12,22 @@
  */
 
 import { WorkerEntrypoint } from "cloudflare:workers";
+import { AutoRouter, error, IRequest, json } from "itty-router";
 
-export default class CouponReport extends WorkerEntrypoint {
+const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
+
+router.post("/coupon/report", () => {
+
+});
+
+router.get("/coupon", () => {
+	return "Hello world";
+});
+
+export default class CouponReport extends WorkerEntrypoint<Env> {
 
 	async fetch(request: Request): Promise<Response> {
-		return new Response('Hello World!');
+		return router.fetch(request, this.env, this.ctx).then(json).catch(error);
 	}
 
 }
