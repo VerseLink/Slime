@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json.schemastore.org/chrome-manifest",
+    "manifest_version": 3,
+    "name": "Slime - Open Source Coupon Discovery",
+    "description": "Slime is a open source alternative for coupon discovery, without modify affiliate codes and focus on community feedback!",
+    "default_locale": "en",
+    "version": "0.1",
+    "action": {
+        "default_popup": "index.html",
+        "default_icon": "icon.png"
+    },
+    "icons": {
+      "256": "icon.png"
+    },
+    "background": {
+      "service_worker": "service.js",
+      "type": "module"
+    },
+    "permissions": [
+      "tabs",
+      "storage"
+    ]
+}

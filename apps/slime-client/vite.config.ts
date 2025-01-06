@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,7 +10,7 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [
 				{
-					src: 'public/manifest.json',
+					src: 'manifest.json',
 					dest: '.',
 				},
 				{
@@ -31,5 +32,10 @@ export default defineConfig({
 				chunkFileNames: 'chunks/[name].[hash].js', // Other files in chunks folder
 			}
 		},
+	},
+	resolve: {
+	  alias: {
+		"@": path.resolve(__dirname, "./src"),
+	  },
 	},
 })

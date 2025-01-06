@@ -56,6 +56,16 @@ const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" }
 router.post("/coupon/report", async (request, env) => {
 	const body = await request.json<CouponReportRequest>();
 
+	const schema = z.object({
+		domain: z.string().nonempty().url(),
+		coupon: z.string().nonempty().max(128),
+		couponContent: z.discriminatedUnion("type", [
+			z.object({ type: "" }),
+			z.object({ type: "" })
+		])
+	});
+
+	schema.parse(body);
 	try {
 		const qb = new D1QB(env.COUPON_DB);
 		const result = await qb.insert<DbCouponTable>({
@@ -64,7 +74,7 @@ router.post("/coupon/report", async (request, env) => {
 				{
 					Id: crypto.randomUUID(),
 					Domain: body.domain,
-					PathRegex: body.pathRegex ?? null,
+					PathRegex: body.pathRegex ?? null, // body?.pathRegex
 					Coupon: body.coupon,
 					CouponContent: JSON.stringify(body.couponContent),
 					Conditions: JSON.stringify(body.conditions),
