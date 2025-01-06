@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS CouponTable (
     Id TEXT PRIMARY KEY,       -- 唯一標識符
     Domain TEXT NOT NULL,      -- 儲存網站域名
-    UrlRegex TEXT,             -- 儲存爬取折扣碼的正則表達式
+    PathRegex TEXT,             -- 儲存爬取折扣碼的正則表達式
     Coupon TEXT NOT NULL,      -- 折扣碼
     CouponContent TEXT,        -- 優惠內容描述
     Conditions TEXT,           -- 優惠使用條件

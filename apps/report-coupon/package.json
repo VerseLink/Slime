@@ -17,6 +17,8 @@
     "wrangler": "^3.99.0"
   },
   "dependencies": {
-    "itty-router": "^5.0.18"
+    "itty-router": "^5.0.18",
+    "workers-qb": "^1.8.0",
+    "zod": "^3.24.1"
   }
 }
