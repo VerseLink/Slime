@@ -5,6 +5,16 @@ import { Input } from "./components/ui/input";
 
 export default function App() {
 
+  if (chrome?.management != null) {
+    chrome.management.getSelf(result => {
+      // dev env
+      if (result.installType === "development") {
+        return;
+      }
+      // prod env
+    });
+  }
+
   return (
     <div className='flex flex-col items-center justify-center h-full'>
       <div className="w-full p-4" style={{ background: "rgb(0 0 0 / 75%) url(./slime.jpg)", backgroundBlendMode: "darken" }}>

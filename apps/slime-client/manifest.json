@@ -5,9 +5,23 @@
     "description": "Slime is a open source alternative for coupon discovery, without modify affiliate codes and focus on community feedback!",
     "default_locale": "en",
     "version": "0.1",
+    "host_permissions": [ "http://*/*", "https://*/*" ],
+    "content_scripts": [ 
+      {
+        "all_frames": false,
+        "match_about_blank": false,
+        "js": [ "widget.js" ],
+        "matches": [ "http://*/*", "https://*/*" ],
+        "run_at": "document_end"
+      } 
+    ],
     "action": {
         "default_popup": "index.html",
-        "default_icon": "icon.png"
+        "default_icon": {
+          "16": "icon.png",
+          "24": "icon.png",
+          "32": "icon.png"
+        }
     },
     "icons": {
       "256": "icon.png"
