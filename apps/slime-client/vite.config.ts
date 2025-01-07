@@ -25,7 +25,8 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: './index.html',
-				service: 'src/service/index.ts'
+				service: 'src/service/index.ts',
+				widget: 'src/widget/index.ts'
 			},
 			output: {
 				entryFileNames: '[name].js', // Ensures the service worker is named properly
