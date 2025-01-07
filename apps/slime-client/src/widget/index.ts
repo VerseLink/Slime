@@ -1,9 +1,11 @@
 const targetSites = ["https://example.com", "https://game.maj-soul.com/1/"];
-
 const currentUrl = window.location.href;
-if(targetSites.some(site => currentUrl.includes(site))){
+
+// 检查当前页面是否匹配目标网站
+if (targetSites.some(site => currentUrl.includes(site))) {
+
+    // 創建浮動視窗
     if (!document.getElementById("customPopup")) {
-        // 創建浮動視窗
         const popup = document.createElement("div");
         popup.id = "customPopup";
         popup.style.position = "fixed";

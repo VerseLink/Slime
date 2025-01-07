@@ -18,13 +18,13 @@
     "action": {
         "default_popup": "index.html",
         "default_icon": {
-          "16": "icon.png",
-          "24": "icon.png",
-          "32": "icon.png"
+          "16": "iconGray.png",
+          "24": "iconGray.png",
+          "32": "iconGray.png"
         }
     },
     "icons": {
-      "256": "icon.png"
+      "256": "iconGray.png"
     },
     "background": {
       "service_worker": "service.js",
