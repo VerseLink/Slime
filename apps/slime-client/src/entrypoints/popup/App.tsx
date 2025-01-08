@@ -1,26 +1,15 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
-import { Button } from "./components/ui/button";
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "./components/ui/drawer";
-import { Input } from "./components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSadTear, faGift, faListCheck, faTag } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 
 export default function App() {
-
-  if (chrome?.management != null) {
-    chrome.management.getSelf(result => {
-      // dev env
-      if (result.installType === "development") {
-        return;
-      }
-      // prod env
-    });
-  }
-
   return (
     <div className='flex flex-col items-center justify-center h-full'>
       <HeaderBanner />
@@ -39,7 +28,7 @@ export function HeaderBanner() {
   return (
     <div className="w-full p-4" style={{ background: "rgb(0 0 0 / 75%) url(./slime.jpg)", backgroundBlendMode: "darken" }}>
       <div className="flex items-center gap-4">
-        <img src="./happy.png" className="h-12" />
+        <img src="./widget/happy.png" className="h-12" />
         <div>
           <h1 className='text-3xl text-white'>Slime</h1>
           <h2 className='text-xs'>A open source coupon discovery plugin.</h2>

@@ -1,13 +1,16 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
+  "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "react": ["./node_modules/@types/react"],
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true
   }
 }
