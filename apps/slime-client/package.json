@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build --mode development && vite build --mode development --config vite.widget-config.ts",
+    "build:widget": "tsc -b && vite build --mode development --config vite.widget-config.ts",
+    "build:deployment": "tsc -b && vite build && vite build --config vite.widget-config.ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -18,9 +20,11 @@
     "lucide-react": "^0.469.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
+    "vite-plugin-singlefile": "^2.1.0",
     "vite-plugin-static-copy": "^2.2.0"
   },
   "devDependencies": {

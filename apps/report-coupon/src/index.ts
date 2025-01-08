@@ -17,7 +17,7 @@ import { DbCouponTable } from "./types/DbCouponTable";
 import { z } from "zod";
 import { D1QB } from "workers-qb";
 
-export type CouponConditions = {
+export type CouponCondition = {
 	type: "sumGreaterThan" | "sumGreaterOrEqualThan",
 	value: number,
 } |
@@ -34,36 +34,64 @@ export type CouponContent = {
 
 }
 
-export type CouponReportRequest = {
+export type RedeemContent = {
+	type: "other",
+	details: string,
+	amount: number,
+}
+
+export type RedeemCondition = {
+	type: "other",
+	details: string
+}
+
+export type CodeReportRequest = {
 	domain: string,
 	pathRegex?: string,
-	coupon: string,
-	couponContent?: CouponContent[],
-	conditions?: CouponConditions[],
+} & ({
+	type: "coupon"
+	code: string,
+	content?: CouponContent[],
+	conditions?: CouponCondition[],
 	expireAt?: number,
-};
+} | {
+	type: "redeem",
+	code: string,
+	content?: RedeemContent[],
+	conditions?: RedeemCondition[],
+	expireAt?: number,
+});
 
 export type CouponResult = {
 	coupon: string;
 	pathRegex?: string;
 	couponContent: CouponContent[],
-	conditions: CouponConditions[],
+	conditions: CouponCondition[],
 	expireAt?: number,
 }
 
 const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
 
-router.post("/coupon/report", async (request, env) => {
-	const body = await request.json<CouponReportRequest>();
+router.post("/code/report", async (request, env) => {
+	const body = await request.json<CodeReportRequest>();
 
-	const schema = z.object({
-		domain: z.string().nonempty().url(),
-		coupon: z.string().nonempty().max(128),
-		couponContent: z.discriminatedUnion("type", [
-			z.object({ type: "" }),
-			z.object({ type: "" })
-		])
-	});
+	const schema = z.discriminatedUnion("type", [
+		z.object({
+			type: z.literal("coupon"),
+			domain: z.string().nonempty().url(),
+			coupon: z.string().nonempty().max(128),
+			couponContent: z.discriminatedUnion("type", [
+				z.object({ type: z.literal("other"), details: z.string() }),
+			]),
+			conditions: z.discriminatedUnion("type", [
+				z.object({ type: z.literal("other"), details: z.string(), amount: z.number().nullish() }),
+			])
+		}),
+		z.object({
+			type: z.literal("redeem"),
+			domain: z.string().nonempty().url(),
+		})
+	]);
 
 	schema.parse(body);
 	try {
@@ -95,7 +123,7 @@ router.post("/coupon/report", async (request, env) => {
 	}
 });
 
-router.get("/coupon", async (request, env) => {
+router.get("/code", async (request, env) => {
 
 	const domain = request.params["domain"];
 	if (domain == null)
