@@ -15,7 +15,7 @@ export default function App() {
       <HeaderBanner />
       <SiteNotSupported />
       <div className="w-full overflow-x-hidden overflow-y-scroll">
-        <RedeemCode code="BUGUBIRD2025" rating={100} content={["Jade * 100", "Credit * 2200"]} />
+        <RedeemCode code="BUGUBIRDYES" rating={100} content={["Jade * 100", "Credit * 2200"]} />
         <RedeemCode code="BUGUBIRD2025" rating={100} content={["Jade * 100", "Credit * 2200"]} />
         <NoCouponFound />
       </div>

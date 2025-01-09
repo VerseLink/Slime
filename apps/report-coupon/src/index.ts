@@ -12,10 +12,11 @@
  */
 
 import { WorkerEntrypoint } from "cloudflare:workers";
-import { AutoRouter, error, IRequest, json, StatusError } from "itty-router";
+import { AutoRouter, error, IRequest, json, StatusError, text } from "itty-router";
 import { DbCouponTable } from "./types/DbCouponTable";
 import { z } from "zod";
 import { D1QB } from "workers-qb";
+import jwt from "@tsndr/cloudflare-worker-jwt"
 
 export type CouponCondition = {
 	type: "sumGreaterThan" | "sumGreaterOrEqualThan",
@@ -72,7 +73,31 @@ export type CouponResult = {
 
 const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
 
+router.post("/register", async () =>{
+	const token = await jwt.sign({
+		iss: "BIGUBIRD",
+		point: 0,
+		iat: Date.now(),
+		jti: crypto.randomUUID()
+    }, "IAM2025PENGUIN")
+
+	return token;
+});
+
+async function verify(request: IRequest) {
+	const token = request.headers.get("X-Temp-User");
+	if (token == null){
+		throw new StatusError(400, "Bad Request");
+	}
+	const verifiedToken = await jwt.verify(token, "IAM2025PENGUIN")
+
+    if (!verifiedToken){
+		throw new StatusError(401, "Unauthorized");
+	}
+};
+
 router.post("/code/report", async (request, env) => {
+	await verify(request);
 	const body = await request.json<CodeReportRequest>();
 
 	const schema = z.discriminatedUnion("type", [
