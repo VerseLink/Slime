@@ -1,0 +1,11 @@
+{
+    "extName": {
+        "message": "Slime - Open Source Coupon Discovery"
+    },
+    "extDescription": {
+        "message": "Slime is a open source alternative for coupon discovery, without modify affiliate codes and focus on community feedback!"
+    },
+    "reportCouponOrRedeemCode": {
+        "message": "Report Coupon or Redeem Code"
+    }
+}
