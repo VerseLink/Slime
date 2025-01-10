@@ -42,7 +42,7 @@ export default defineConfig({
 		}
 	],
 	extensionApi: 'chrome',
-	modules: ['@wxt-dev/module-react'],
+	modules: ['@wxt-dev/module-react', '@wxt-dev/i18n/module'],
 	alias: {
 		"@": path.resolve(__dirname, "./src"),
 	}

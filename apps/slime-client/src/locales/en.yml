@@ -1,0 +1,28 @@
+extName: Slime - Open Source Coupon Discovery
+extDescription: Slime is a open source alternative for coupon discovery, without modify affiliate codes and focus on community feedback!
+
+slogan: Free, Open Source and Community Driven!
+
+signIn: Sign In
+
+card:
+  redeem_code: Redeem Code
+  expires_at: Expires At
+  code_used: Used
+  community: Community
+  verified: Verified
+  report: Report
+  share: Share
+  copy: Copy
+  copied: Copied
+  this_code_is_reported_by_the_community: This code is reported by the community, and may not be valid.
+
+code:
+  featured: Featured
+  used: Used
+  unverified: Unverified
+
+applying_code_manually_is_required: Applying codes manually is required.
+more_info: More Info
+
+reportCouponOrRedeemCode: Report Coupon or Redeem Code

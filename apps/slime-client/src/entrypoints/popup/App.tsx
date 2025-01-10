@@ -3,38 +3,59 @@ import { Button } from "@/components/ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceSadTear, faGift, faListCheck, faTag } from "@fortawesome/free-solid-svg-icons";
+import { faFaceSadTear, faGift, faListCheck, faTag, faUser, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ThumbsDown, ThumbsUp } from "lucide-react";
-import { faClipboard } from "@fortawesome/free-regular-svg-icons";
+import { ChevronRight, CircleEllipsis, CircleUserRound, EllipsisVertical, InfoIcon, Menu, Settings, Settings2, ThumbsDown, ThumbsUp, User, UserCircle, UserCircle2 } from "lucide-react";
+import { RedeemCode } from "./RedeemCode";
+import { HoverTooltip } from "./HoverTooltip";
+import { Separator } from "@/components/ui/separator";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function App() {
   return (
     <div className='flex flex-col items-center justify-center h-full'>
       <HeaderBanner />
       <SiteNotSupported />
-      <div className="w-full overflow-x-hidden overflow-y-scroll">
-        <RedeemCode code="BUGUBIRD2025" rating={100} content={["Jade * 100", "Credit * 2200"]} />
-        <RedeemCode code="BUGUBIRD2025" rating={100} content={["Jade * 100", "Credit * 2200"]} />
+      <div className="flex w-full gap-2 px-3 my-3 text-xs font-bold">
+        <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 bg-zinc-300 text-zinc-800">{i18n.t("code.featured")}</button>
+        <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 text-zinc-300">{i18n.t("code.used")}</button>
+        <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 text-zinc-300">{i18n.t("code.unverified")}</button>
+      </div>
+      <div className="flex flex-col w-full flex-1 overflow-x-hidden overflow-y-scroll scroll-smooth [scrollbar-width:thin] [scrollbar-gutter:stable]">
+        <RedeemCode code="BUGUBIRD2025" rating={100} used={200} content={["Jade * 100", "星際通用幣 * 2200", "Credit * 2200", "Credit * 2200"]} />
+        <RedeemCode code="BUGUBIRD2025" rating={100} used={1000} content={["Jade * 100", "Credit * 2200"]} />
         <NoCouponFound />
       </div>
-      <ReportFooter />
+      <div className="flex items-center justify-center w-full gap-2 px-2 py-2 border-t border-zinc-800 bg-zinc-900">
+        <ReportFooter />
+      </div>
     </div>
   )
 }
 
 export function HeaderBanner() {
   return (
-    <div className="w-full p-4" style={{ background: "rgb(0 0 0 / 75%) url(./slime.jpg)", backgroundBlendMode: "darken" }}>
-      <div className="flex items-center gap-4">
-        <img src="./widget/happy.png" className="h-12" />
-        <div>
-          <h1 className='text-3xl text-white'>Slime</h1>
-          <h2 className='text-xs'>A open source coupon discovery plugin.</h2>
+    <div className="w-full py-2.5" style={{ background: "rgb(0 0 0 / 75%) url(./slime.jpg)", backgroundBlendMode: "darken" }}>
+      <div className="flex items-center">
+        <div className="flex items-center gap-3 pl-4">
+          <img src="./widget/happy.png" className="h-8" />
+          <h1 className='text-2xl leading-tight text-white'>Slime</h1>
+          <Separator orientation="vertical" className="h-6 bg-stone-400" />
+          <h2 className='text-xs leading-tight text-neutral-300'>{i18n.t("slogan")}</h2>
         </div>
-        <div className="ml-auto">
-          +
+        <div className="flex items-center flex-1 px-3 ml-auto">
+          <div className="py-1 cursor-pointer">
+            <div className="flex items-center gap-1.5">
+              <CircleUserRound className="w-6" strokeWidth={1.5} />
+              <div className="text-sm font-medium text-center text-nowrap">{i18n.t("signIn")}</div>
+            </div>
+          </div>
+          <HoverTooltip tip={"Settings"}>
+            <div className="pl-2 cursor-pointer">
+              <EllipsisVertical className="h-5" strokeWidth={1.5} />
+            </div>
+          </HoverTooltip>
         </div>
       </div>
     </div>
@@ -43,27 +64,15 @@ export function HeaderBanner() {
 
 export function SiteNotSupported() {
   return (
-    <div className="px-4 py-3 bg-amber-950">
-      <div className="flex items-center gap-4 pb-2">
-        <FontAwesomeIcon className="text-2xl" icon={faFaceSadTear} />
-        <div className="text-sm">
-          We don't support auto coupon applying on this website yet, but you can help!
+    <div className="flex items-center w-full gap-2 px-3 py-2 justify-stretch bg-slate-900">
+      <div className="flex items-center w-full gap-3 text-sm">
+        <InfoIcon size={20} />
+        <div className="">
+          {i18n.t("applying_code_manually_is_required")}
         </div>
-      </div>
-      <div className="flex justify-end gap-1 mt-1 text-sm">
-        <button className="px-2 py-1 border rounded-md border-zinc-500"><FontAwesomeIcon icon={faListCheck} /> Request</button>
-        <TooltipProvider>
-          <Tooltip delayDuration={100}>
-            <TooltipTrigger asChild>
-              <button className="px-2 py-1 border rounded-md border-zinc-500">
-                <FontAwesomeIcon icon={faGithub} /> Contribute
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              Contribute on Github!
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <div className="flex items-center gap-1 p-1 px-3 ml-auto border rounded-lg text-nowrap border-zinc-600">
+          {i18n.t("more_info")}
+        </div>
       </div>
     </div>
   );
@@ -73,15 +82,12 @@ export function ReportFooter() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <div className="flex w-full py-2 bg-stone-900">
-          <button className='flex items-center justify-center flex-1 gap-2 py-2 mx-8 my-1 text-sm border-2 rounded-md cursor-pointer border-zinc-700'>
-            <FontAwesomeIcon className="text-lg text-zinc-400" icon={faTag} />
-            {
-              "Report Coupon or Redeem Code"
-              //chrome.i18n.getMessage("reportCouponOrRedeemCode")
-            }
-          </button>
-        </div>
+        <button className='flex items-center justify-center gap-2 px-4 py-2 my-1 text-sm border rounded-md cursor-pointer border-zinc-700'>
+          <FontAwesomeIcon className="text-lg text-zinc-400" icon={faTag} />
+          {
+            i18n.t("reportCouponOrRedeemCode")
+          }
+        </button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -125,45 +131,6 @@ export function NoCouponFound() {
         <div>
           No coupon found on this website
         </div>
-      </div>
-    </div>
-  );
-}
-
-export function RedeemCode(args: { rating?: number, content?: string[], code: string }) {
-  return (
-    <div className="px-4 py-1 m-3 bg-stone-900 rounded-xl">
-      <div className="my-2 ml-1 text-sm">
-        <FontAwesomeIcon className="mr-2" icon={faGift} />
-        Redeem Code
-      </div>
-      <div className="flex items-center my-1 mb-3">
-        <div className="flex flex-col flex-1">
-          <div className="flex px-2 py-2 my-1 mr-2 border-2 border-dashed rounded-md border-stone-700">
-            <div className="text-xl font-semibold">
-              {args.code}
-            </div>
-            <div className="flex items-center ml-auto text-stone-500">
-              <FontAwesomeIcon className="text-xl" icon={faClipboard} />
-            </div>
-          </div>
-          <ul className="flex gap-3 px-1 pt-2 text-sm">
-            {
-              args.content?.map(content => (
-                <li>{content}</li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
-      <div className="h-[1px] bg-stone-700"></div>
-      <div className="flex items-center pb-3 mt-3 text-xs">
-        <ThumbsUp className="h-4" />
-        <div className="text-center w-9">
-          {args.rating ?? ""}
-        </div>
-        <ThumbsDown className="h-4" />
-        <div className="ml-auto text-xs">Provided by community</div>
       </div>
     </div>
   );

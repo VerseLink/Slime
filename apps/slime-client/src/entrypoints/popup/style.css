@@ -1,8 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --radius: 0.5rem
   }
+  @font-face {
+    font-family: 'Geist';
+    font-weight: 1 999;
+    src: url("./Geist.ttf") format('truetype-variations');
+  }
+}
+
+
+body {
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+:root {
+  color-scheme: dark;
 }

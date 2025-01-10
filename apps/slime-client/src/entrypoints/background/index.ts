@@ -15,7 +15,10 @@ function setIconStatusByTab(tab: chrome.tabs.Tab) {
     if (supportedSites.has(url.hostname)) {
         chrome.action.setIcon({
             path: {
-                "32": "icons/32.png"
+                "16": "icons/16.png",
+                "32": "icons/32.png",
+                "48": "icons/48.png",
+                "128": "icons/128.png",
             }
         });
         // TODO: Add badge content
@@ -26,7 +29,10 @@ function setIconStatusByTab(tab: chrome.tabs.Tab) {
     }
     chrome.action.setIcon({
         path: {
-            "32": "icon-disabled-32.png"
+            "16": "icons/16.disabled.png",
+            "32": "icons/32.disabled.png",
+            "48": "icons/48.disabled.png",
+            "128": "icons/128.disabled.png",
         }
     });
     chrome.action.setBadgeText({ text: "X" });
