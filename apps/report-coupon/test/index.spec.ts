@@ -1,7 +1,7 @@
 // test/index.spec.ts
 import { env, createExecutionContext, waitOnExecutionContext, SELF } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
-import worker from '../src/index';
+import CouponReport from '../src/index';
 
 // For now, you'll need to do something like this to get a correctly-typed
 // `Request` to pass to `worker.fetch()`.
@@ -12,7 +12,8 @@ describe('Hello World worker', () => {
 		const request = new IncomingRequest('http://example.com');
 		// Create an empty context to pass to `worker.fetch()`.
 		const ctx = createExecutionContext();
-		const response = await worker.fetch(request, env, ctx);
+		const worker = new CouponReport(ctx, env);
+		const response = await worker.fetch(request);
 		// Wait for all `Promise`s passed to `ctx.waitUntil()` to settle before running test assertions
 		await waitOnExecutionContext(ctx);
 		expect(await response.text()).toMatchInlineSnapshot(`"Hello World!"`);
