@@ -9,7 +9,7 @@ export default defineWorkersConfig({
 				miniflare: {
 					kvNamespaces: ["JWT_KEY_KV_STORE"],
 					d1Databases: ["COUPON_DB"],
-				}
+        }
 			},
 		},
 	},
