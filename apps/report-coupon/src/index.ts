@@ -158,10 +158,8 @@ router.get("/code", async (request, env) => {
 	}
 });
 
-export default class CouponReport extends WorkerEntrypoint<Env> {
-
-	async fetch(request: Request): Promise<Response> {
-		return router.fetch(request, this.env, this.ctx).then(json).catch(error);
-	}
-
-}
+export default {
+    async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+        return router.fetch(request, env, ctx).then(json).catch(error);
+    }
+} satisfies ExportedHandler<Env>;

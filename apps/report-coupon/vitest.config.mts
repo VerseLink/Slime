@@ -5,6 +5,10 @@ export default defineWorkersConfig({
 		poolOptions: {
 			workers: {
 				wrangler: { configPath: './wrangler.toml' },
+				miniflare: {
+					kvNamespaces: ["JWT_KEY_KV_STORE"],
+					d1Databases: ["COUPON_DB"],
+				  }
 			},
 		},
 	},
