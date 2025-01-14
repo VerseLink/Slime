@@ -10,6 +10,18 @@ import { v7 } from 'uuid';
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 describe('Hello World worker', () => {
+
+	let url: URL;
+
+	beforeEach(() => {
+		url = new URL("https://console.log/123");
+	})
+
+	it ("url works!", () => {
+		expect(url).instanceOf(URL);
+		expect(url.hostname).equal("console.log");
+	});
+	
 	it('responds with Hello World! (unit style)', async () => {
 		const request = new IncomingRequest('http://example.com');
 		// Create an empty context to pass to `worker.fetch()`.

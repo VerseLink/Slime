@@ -1,41 +1,41 @@
 import { supportedSites } from "@/utils/placeholder";
+import { ExtensionIcon } from "./ExtensionIcon";
 
 export default defineBackground(() => {
+    chrome.tabs.onCreated.addListener((tab) => setIconStatusByTab(tab));
     chrome.tabs.onUpdated.addListener((_, __, tab) => setIconStatusByTab(tab));
-    
+
     chrome.tabs.onActivated.addListener((activeInfo) => {
         chrome.tabs.get(activeInfo.tabId, tab => setIconStatusByTab(tab));
-    })
+    });
 });
 
-function setIconStatusByTab(tab: chrome.tabs.Tab) {
-    if (tab.url == null)
+async function isSiteSupported(tabUrl: string) {
+    const url = new URL(tabUrl);
+    if (url.protocol !== "https:" && url.protocol !== "http:")
+        return false;
+    
+    // import.meta.env.MODE === "development"
+    const baseUrl = import.meta.env.VITE_ENDPOINT;
+    const apiUrl = new URL(`/api/v1/code?domain=${encodeURIComponent(url.hostname)}`, baseUrl);
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        console.info(data, response.headers.get('cache-control'));
+        return data.length !== 0;
+    }
+    catch (error: unknown) {
+        console.log(error, apiUrl);
+        throw error;
+    }
+}
+
+async function setIconStatusByTab(tab: chrome.tabs.Tab) {
+    if (tab.url == null || tab.url === "")
         return;
-    const url = new URL(tab.url);
-    if (supportedSites.has(url.hostname)) {
-        chrome.action.setIcon({
-            path: {
-                "16": "icons/16.png",
-                "32": "icons/32.png",
-                "48": "icons/48.png",
-                "128": "icons/128.png",
-            }
-        });
-        // TODO: Add badge content
-        chrome.action.setBadgeText({ text: "1" });
-        chrome.action.setBadgeBackgroundColor({ color: "#DC143C" });
-        chrome.action.setBadgeTextColor({ color: "white" });
+    if (!await isSiteSupported(tab.url)) {
+        ExtensionIcon.setInactive({ text: "X" });
         return;
     }
-    chrome.action.setIcon({
-        path: {
-            "16": "icons/16.disabled.png",
-            "32": "icons/32.disabled.png",
-            "48": "icons/48.disabled.png",
-            "128": "icons/128.disabled.png",
-        }
-    });
-    chrome.action.setBadgeText({ text: "X" });
-    chrome.action.setBadgeBackgroundColor({ color: "#444444" });
-    chrome.action.setBadgeTextColor({ color: "#DCDCDC" });
+    ExtensionIcon.setActive({ text: "1" });
 }

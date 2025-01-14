@@ -3,6 +3,7 @@
 languageIds:
   - typescript
   - typescriptreact
+
 # Look for t("...")
 usageMatchRegex:
   - "[^\\w\\d]t\\(['\"`]({key})['\"`]"

@@ -8,7 +8,7 @@ signIn: Sign In
 card:
   redeem_code: Redeem Code
   expires_at: Expires At
-  code_used: Used
+  code_used: $1 Used
   community: Community
   verified: Verified
   report: Report
@@ -19,7 +19,8 @@ card:
 
 code:
   featured: Featured
-  used: Used
+  refresh: Refresh New Codes
+  revert_viewed: Mark all codes as Not Used
   unverified: Unverified
 
 applying_code_manually_is_required: Applying codes manually is required.
