@@ -1,4 +1,5 @@
 import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+import path from 'path';
 
 export default defineWorkersConfig({
 	test: {
@@ -10,6 +11,11 @@ export default defineWorkersConfig({
 					d1Databases: ["COUPON_DB"],
 				}
 			},
+		},
+	},
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, './src')
 		},
 	},
 });

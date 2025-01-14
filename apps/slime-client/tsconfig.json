@@ -3,12 +3,6 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
-    "paths": {
-      "react": ["./node_modules/@types/react"],
-      "@/*": [
-        "./src/*"
-      ]
-    },
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true

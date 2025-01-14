@@ -1,10 +1,7 @@
 extName: Slime - 開源社群驅動的折價券神器
 extDescription: Slime 是開源、社群驅動的折價券查詢、自動應用軟體，我們不會竄改行銷碼，由喜歡折價券的開發者一同維護的擴充功能！
-
 slogan: 自由、開源、社群驅動萬歲！
-
 signIn: 登入
-
 card:
   redeem_code: 兌換碼
   expires_at: 到期日
@@ -16,13 +13,10 @@ card:
   copy: 複製
   copied: 已複製
   this_code_is_reported_by_the_community: 這個使用碼是由社群回報的，未必能夠正確使用
-
 code:
   featured: 精選
-  used: 已使用
   unverified: 未認證
-
+  not_used: 未使用
 applying_code_manually_is_required: 使用碼需要被手動套用
 more_info: 更多資訊
-
 reportCouponOrRedeemCode: 回報折扣碼或兌換碼

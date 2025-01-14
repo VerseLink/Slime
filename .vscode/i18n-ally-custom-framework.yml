@@ -2,6 +2,7 @@
 # You can check available language ids here: https://code.visualstudio.com/docs/languages/identifiers
 languageIds:
   - typescript
+  - typescriptreact
 
 # Look for t("...")
 usageMatchRegex:
