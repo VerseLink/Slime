@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, Check, CircleUserRound, Coins, CreditCard, EllipsisVertical, Languages, MonitorCog, MonitorSmartphone, MoonStar, ReceiptText, Settings2, SquareArrowOutUpRight, Sun, SunMoon, UserRoundPen } from "lucide-react";
+import { BadgePlus, ChartNoAxesCombined, Check, CircleUserRound, Coins, CreditCard, EllipsisVertical, Languages, MonitorCog, MonitorSmartphone, MoonStar, ReceiptText, Settings2, SquareArrowOutUpRight, Sun, SunMoon, UserRoundPen } from "lucide-react";
 import { HoverTooltip } from "../../components/HoverTooltip";
 import { Separator } from "@/components/ui/separator";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -41,18 +41,17 @@ export function HeaderBanner() {
                                 <DropdownMenuItem onClick={() => navigate("/profile")}>
                                     <UserRoundPen />Profile
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem disabled>
                                     <Coins />
                                     <span>Rewards</span>
                                     <div className="ml-auto text-xs opacity-60">
-                                        <span>$100.32 USD</span>
+                                        <span>Not available</span>
                                     </div>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem><CreditCard />Billing</DropdownMenuItem>
+                                <DropdownMenuItem><BadgePlus />Go Pro!</DropdownMenuItem>
                                 <DropdownMenuItem><ChartNoAxesCombined />Analytics</DropdownMenuItem>
-                                <DropdownMenuItem><ReceiptText />Subscription</DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => navigate("/preferences")}>
                                     <Settings2 />
                                     <span>Preferences</span>
                                 </DropdownMenuItem>

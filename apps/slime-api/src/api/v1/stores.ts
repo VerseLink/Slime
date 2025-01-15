@@ -42,7 +42,7 @@ router.get("stores/unknown", async (request, env): Promise<QueryStoreByIdRespons
                 case "coupon":
                     return {
                         type: "coupon",
-                        id: coupon.id,
+                        id: coupon.couponId,
                         code: coupon.code,
                         // usedByCount: , // unsupported
                         // lastUsedAt: , // unsupported
@@ -56,7 +56,7 @@ router.get("stores/unknown", async (request, env): Promise<QueryStoreByIdRespons
                 case "redeem": 
                     return {
                         type: "redeem",
-                        id: coupon.id,
+                        id: coupon.couponId,
                         code: coupon.code,
                         // usedByCount: , // unsupported
                         // lastUsedAt: , // unsupported

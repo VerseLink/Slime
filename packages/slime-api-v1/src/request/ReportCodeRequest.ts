@@ -1,18 +1,7 @@
 import { z } from "zod";
+import { CouponMetadataSchema } from "@/CouponMetadata";
 
-const CouponMetadataSchema = z.object({
-    percentOff: z.string().optional(),
-    dollarOff: z.string().optional(),
-    freeShipping: z.boolean().optional(),
-    firstPurchase: z.boolean().optional(),
-    sitewide: z.boolean().optional(),
-    freeGift: z.string().array().optional(),
-    bogo: z.boolean().optional(),
-    onlineOnly: z.boolean().optional(),
-    exclusions: z.string().array().optional()
-});
-
-const ReportCodeRequestSchema = z.intersection(
+export const ReportCodeRequestSchema = z.intersection(
     z.object({
         storeId: z.string(),
         reportedUrl: z.string().url(),
@@ -40,5 +29,4 @@ const ReportCodeRequestSchema = z.intersection(
     ])
 );
 
-export type CouponCodeMetadata = z.infer<typeof CouponMetadataSchema>;
-export type ReportCodeRequestSchema = z.infer<typeof ReportCodeRequestSchema>;
+export type ReportCodeRequest = z.infer<typeof ReportCodeRequestSchema>;

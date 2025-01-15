@@ -20,6 +20,8 @@ async function isSiteSupported(tabUrl: string) {
     const apiUrl = new URL(`/api/v1/code?domain=${encodeURIComponent(url.hostname)}`, baseUrl);
     try {
         const response = await fetch(apiUrl);
+        if (!response.ok)
+            return false;
         const data = await response.json();
         console.info(data, response.headers.get('cache-control'));
         return data.length !== 0;

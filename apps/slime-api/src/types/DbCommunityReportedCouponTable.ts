@@ -3,9 +3,11 @@ import { DbTableSchema } from "@slime/util";
 
 export const DbCommunityReportedCouponTable = new DbTableSchema("CommunityReportedCoupon",
     z.object({
-        id: z.string(),
+        couponId: z.string(),
         type: z.literal("coupon").or(z.literal("redeem")),
         storeId: z.string().nullable(),
+        userId: z.string().nullable(),
+        sessionId: z.string().nullable(),
         urlPath: z.string(),
         hostname: z.string(),
         code: z.string(),

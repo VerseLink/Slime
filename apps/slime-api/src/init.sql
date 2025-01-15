@@ -12,13 +12,19 @@ CREATE TABLE IF NOT EXISTS StoreTable (
 CREATE TABLE IF NOT EXISTS CommunityReportedCoupon (
     
     -- 唯一標識符，就算是同個優惠碼也有可能會共享多個ID
-    id TEXT PRIMARY KEY,
+    couponId TEXT PRIMARY KEY,
 
     -- 類別：coupon 或 redeem
     type TEXT NOT NULL CHECK(type IN ('coupon', 'redeem')),
 
     -- 如果我們知道店家的ID 的話就放在這裡
     storeId TEXT,
+
+    -- 使用者 ID
+    -- userId TEXT,
+
+    -- 匿名 ID
+    sessionId TEXT,
 
     -- 最初回報的網址 (例如如果是 shop.google.com/product?id=1234#h1，那 /product?id=1234 會被儲存，相當於 url.pathname + url.search)
     urlPath TEXT NOT NULL,

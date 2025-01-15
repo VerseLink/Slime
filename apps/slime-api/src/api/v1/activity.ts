@@ -3,7 +3,7 @@
  */
 
 import { AutoRouter, IRequest, StatusError } from "itty-router";
-import { withRole } from "./middleware";
+import { withRole } from "./middleware/withRole";
 
 export const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
 
