@@ -41,8 +41,10 @@
 		"paths": {
 			"@": ["./src"],
 			"@/*": ["./src/*"],
+			"~": ["."],
+			"~/*": ["./*"],
 		}
 	},
 	"exclude": ["test"],
-	"include": ["worker-configuration.d.ts", "src/**/*.ts"]
+	"include": ["worker-configuration.d.ts", "src/modules.d.ts", "src/**/*, "test/modules.d.ts".ts"]
 }

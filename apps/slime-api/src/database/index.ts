@@ -2,8 +2,9 @@ import { DbCommunityReportedCouponTable } from "@/types/DbCommunityReportedCoupo
 import { DbStoreTable } from "@/types/DbStoreTable";
 import { DbVerifyCouponTable } from "@/types/DbVerifyCouponTable";
 import { Compilable, CompiledQuery, DummyDriver, InferResult, Kysely, SqliteAdapter, SqliteIntrospector, SqliteQueryCompiler } from "kysely";
+import { SlimeDatabase } from "./types/SlimeDatabase";
 
-export const sqlt = new Kysely<Database>({
+export const sqlt = new Kysely<SlimeDatabase>({
     dialect: {
         createAdapter: () => new SqliteAdapter(),
         createDriver: () => new DummyDriver(),
@@ -16,12 +17,6 @@ class NamedSqliteQueryCompiler extends SqliteQueryCompiler {
     getCurrentParameterPlaceholder() {
         return '?' + this.numParameters;
     }
-}
-
-interface Database {
-    VerifiedCoupon: DbVerifyCouponTable;
-    CommunityReportedCoupon: DbCommunityReportedCouponTable;
-    Store: DbStoreTable;
 }
 
 type ArrayElement<ArrayType extends readonly unknown[]> =

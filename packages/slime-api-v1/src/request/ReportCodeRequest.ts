@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CouponMetadataSchema } from "@/CouponMetadata";
+import { CouponMetadataSchema } from "../CouponMetadata";
 
 export const ReportCodeSchema = z.intersection(
     z.object({

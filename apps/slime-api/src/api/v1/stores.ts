@@ -18,7 +18,7 @@ router.get("stores/list", async (request, env): Promise<StoreListItem[]> => {
     // query database to get the domain
     const domain = getDomainFromQuery(request.query.domain);
     const db = new StoreDatabase(env.COUPON_DB);
-    const stores = await db.queryStoresByDomain(domain);
+    const stores = await db.getStoresByDomain(domain);
 
     return stores.map(store => ({
         storeId: store.storeId,

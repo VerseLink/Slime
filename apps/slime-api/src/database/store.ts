@@ -1,8 +1,5 @@
-import { AutoRouter, IRequest, StatusError } from "itty-router";
-import { D1QB } from "workers-qb";
-import { DbStoreTable } from "@/types/DbStoreTable";
-import { DbCommunityReportedCouponTable } from "@/types/DbCommunityReportedCouponTable";
-import { D1Query, sqlt } from "./db";
+import { ArrayUtil } from "@/util";
+import { D1Query, sqlt } from ".";
 
 export class StoreDatabase {
     private d1: D1Database;
@@ -16,7 +13,15 @@ export class StoreDatabase {
         throw new Error("Not Implemented");
     }
 
-    async queryStoresByDomain(domain: string) {
+    async removeStoreById(id: string) {
+
+    }
+
+    async updateStore() {
+        
+    }
+
+    async getStoresByDomain(domain: string) {
         return await new D1Query(this.d1)
             .execute(
                 sqlt.selectFrom("Store")
@@ -26,9 +31,15 @@ export class StoreDatabase {
             .then(res => res.results ?? []);
     }
 
-    async queryStoreCouponById(id: string) {
-        // TODO: Implement
-        throw new Error("Not Implemented");
+    async getStoreCouponById(id: string) {
+        return await new D1Query(this.d1)
+            .execute(
+                sqlt.selectFrom("Store")
+                    .selectAll()
+                    .where("storeId", "=", id)
+                    .limit(1)
+            )
+            .then(res => ArrayUtil.singleOrDefault(res.results, null));
     }
 
 }

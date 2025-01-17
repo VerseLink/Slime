@@ -1,6 +1,6 @@
 import { AutoRouter, IRequest, json, StatusError } from "itty-router";
 import { ApiRouter } from "./api/v1";
-import { ApiQueryFailedResponse } from "@slime/api-v1";
+import { ApiQueryFailedResponse } from "@slime/api-v1/response";
 
 const getMessage = (code: number): string => ({
 	400: 'Bad Request',
@@ -11,7 +11,7 @@ const getMessage = (code: number): string => ({
 })[code] || 'Unknown Error';
 
 const apiError = (err: unknown) => {
-    
+
 	if (err instanceof StatusError) {
 		const fail: ApiQueryFailedResponse = {
 			success: false,
@@ -39,18 +39,23 @@ const apiError = (err: unknown) => {
 const router = AutoRouter<IRequest, [Env, ExecutionContext]>({
 	base: "/api/v1",
 	catch: apiError,
-	/**
 	format: (response, request) => {
+		if (response instanceof Response)
+			return response;
 		// TODO: Add cache control? 'cache-control': `max-age=${options.maxAge}`
 		return json({
 			success: true,
 			result: response,
-		}, { 
-			headers: {
-				'cache-control': `max-age=${options.maxAge}`
-			}
 		});
+		/**
+			{ 
+				headers: {
+					'cache-control': `max-age=${options.maxAge}`
+				}
+			}
+		*/
 	},
+	/**
 	// add finally so we can ask the client to properly cache some api result
 	finally: (res) => {
 
@@ -60,7 +65,7 @@ const router = AutoRouter<IRequest, [Env, ExecutionContext]>({
 });
 
 router.all("/activity", ApiRouter.activity.fetch)
-	  .all("/stores", ApiRouter.stores.fetch)
-	  .all("/report", ApiRouter.code.fetch);
+	.all("/stores", ApiRouter.stores.fetch)
+	.all("/report", ApiRouter.code.fetch);
 
 export default router;

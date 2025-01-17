@@ -1,6 +1,7 @@
 import { DbCommunityReportedCouponTable } from "@/types/DbCommunityReportedCouponTable";
-import { D1Query, sqlt } from "./db";
+import { D1Query, sqlt } from ".";
 import { ReportCode } from "@slime/api-v1/request";
+import { UserOrAnonymousId } from "@/types/UserOrAnonymousId";
 
 export class CouponCodeDatabase {
     private d1: D1Database;
@@ -9,7 +10,13 @@ export class CouponCodeDatabase {
         this.d1 = d1;
     }
 
-    reportCode(code: ReportCode) {
+    async addCommunityCode(code: ReportCode, reportBy: UserOrAnonymousId) {
+        switch(code.type) {
+            case "redeem":
+
+            case "coupon":
+
+        }
         /**
         db.insertInto("CommunityReportedCoupon")
             .values({
@@ -17,6 +24,34 @@ export class CouponCodeDatabase {
                 description: code.des
             })
         */
+    }
+
+    async addVerifiedCode() {
+
+    }
+
+    // 更新官方的優惠碼
+    // 因為社群回報的優惠碼是 "回報" 我們不打算讓他們更動
+    async updateVerifiedCode() {
+
+    }
+
+    async removeCommunityCodeById(id: string) {
+
+    }
+
+    async removeVerifiedCodeById(id: string) {
+
+    }
+
+    // 回報使用者使用了一個Community Code
+    async usedCommunityCode() {
+
+    }
+
+    // 回報使用者使用了一個Verified Code
+    async useVerifiedCode() {
+
     }
 
     async getCommunityCodeByHostname(hostname: string, options?: { excludeKnownStores?: boolean }): Promise<DbCommunityReportedCouponTable[]> {

@@ -1,4 +1,4 @@
-import { ApiQueryResponse } from "@slime/api-v1";
+import { ApiQueryResponse } from "@slime/api-v1/response";
 
 export namespace ArrayUtil {
     /**
@@ -10,6 +10,12 @@ export namespace ArrayUtil {
         if (str === undefined)
             return undefined;
         return str[str.length - 1];
+    }
+
+    export function singleOrDefault<T>(array: T[] | undefined | null, defaultValue: T) {
+        if (array == null)
+            return defaultValue;
+        return array.length === 0 ? defaultValue : array[0];
     }
 }
 
