@@ -2,6 +2,7 @@ import { DbCommunityReportedCouponTable } from "@/types/DbCommunityReportedCoupo
 import { D1Query, sqlt } from ".";
 import { ReportCode } from "@slime/api-v1/request";
 import { UserOrAnonymousId } from "@/types/UserOrAnonymousId";
+import psl from "psl";
 
 export class CouponCodeDatabase {
     private d1: D1Database;
@@ -27,7 +28,6 @@ export class CouponCodeDatabase {
     }
 
     async addVerifiedCode() {
-
     }
 
     // 更新官方的優惠碼

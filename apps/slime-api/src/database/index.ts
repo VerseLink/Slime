@@ -4,6 +4,12 @@ import { DbVerifyCouponTable } from "@/types/DbVerifyCouponTable";
 import { Compilable, CompiledQuery, DummyDriver, InferResult, Kysely, SqliteAdapter, SqliteIntrospector, SqliteQueryCompiler } from "kysely";
 import { SlimeDatabase } from "./types/SlimeDatabase";
 
+class NamedSqliteQueryCompiler extends SqliteQueryCompiler {
+    getCurrentParameterPlaceholder() {
+        return '?' + this.numParameters;
+    }
+}
+
 export const sqlt = new Kysely<SlimeDatabase>({
     dialect: {
         createAdapter: () => new SqliteAdapter(),
@@ -12,12 +18,6 @@ export const sqlt = new Kysely<SlimeDatabase>({
         createQueryCompiler: () => new NamedSqliteQueryCompiler()
     }
 });
-
-class NamedSqliteQueryCompiler extends SqliteQueryCompiler {
-    getCurrentParameterPlaceholder() {
-        return '?' + this.numParameters;
-    }
-}
 
 type ArrayElement<ArrayType extends readonly unknown[]> =
     ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
