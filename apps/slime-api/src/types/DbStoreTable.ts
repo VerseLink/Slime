@@ -4,7 +4,7 @@ import { z } from "zod";
 export const DbStoreTable = new DbTableSchema("StoreTable", 
     z.object({
         storeId: z.string(),
-        baseUrlPart: z.string(),
+        urlRegex: z.string(),
         domain: z.string()
     })
 );
