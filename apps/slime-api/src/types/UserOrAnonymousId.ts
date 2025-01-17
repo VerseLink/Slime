@@ -1,0 +1,1 @@
+export type UserOrAnonymousId = { userId: string; } | { sessionId: string; }

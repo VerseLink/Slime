@@ -1,7 +1,8 @@
 import { AutoRouter, IRequest, StatusError } from "itty-router";
 import { ApiResponse, ArrayUtil } from "@/util";
-import { CouponCodeInfo, QueryStoreByDomainResponse, QueryStoreByIdResponse, RedeemCodeInfo } from "@slime/api-v1";
+import { CouponCodeInfo, StoreListItem, RedeemCodeInfo, StoreResource } from "@slime/api-v1/response";
 import { StoreDatabase } from "@/database/store";
+import { CouponCodeDatabase } from "@/database/coupon";
 
 export const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
 
@@ -13,29 +14,28 @@ function getDomainFromQuery(domainQuery: string | string[] | undefined) {
 }
 
 // List stores associated by the root domain
-router.get("stores/list", async (request, env): Promise<QueryStoreByDomainResponse> => {
+router.get("stores/list", async (request, env): Promise<StoreListItem[]> => {
     // query database to get the domain
     const domain = getDomainFromQuery(request.query.domain);
     const db = new StoreDatabase(env.COUPON_DB);
     const stores = await db.queryStoresByDomain(domain);
 
-    const response = stores.map(store => ({
+    return stores.map(store => ({
         storeId: store.storeId,
         urlPart: store.baseUrlPart,
     }));
 
-    return ApiResponse.success(response);
 });
 
 // Get a unsupported store by the domain, this allows people to report coupon from a website
 // but not neccessarily that we support this website
-router.get("stores/unknown", async (request, env): Promise<QueryStoreByIdResponse> => {
+router.get("stores/unknown", async (request, env): Promise<StoreResource> => {
     const domain = getDomainFromQuery(request.query.domain);
 
-    const db = new StoreDatabase(env.COUPON_DB);
-    const coupons = await db.queryCouponByHostname(domain);
+    const db = new CouponCodeDatabase(env.COUPON_DB);
+    const coupons = await db.getCommunityCodeByHostname(domain, { excludeKnownStores: true });
 
-    return ApiResponse.success({
+    return {
         supportKind: "unsupported",
         coupons: coupons.map(coupon => {
             switch(coupon.type) {
@@ -68,11 +68,11 @@ router.get("stores/unknown", async (request, env): Promise<QueryStoreByIdRespons
                     } satisfies RedeemCodeInfo;
             }
         })
-    });
+    };
 });
 
 // StoreId must be 8 characters +
-router.get("stores/id/:storeId", async (request, env): Promise<QueryStoreByIdResponse> => {
+router.get("stores/id/:storeId", async (request, env): Promise<StoreResource> => {
     const storeId = request.params.storeId;
 
     // TODO: Implement

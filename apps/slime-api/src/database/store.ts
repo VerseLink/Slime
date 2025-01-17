@@ -2,6 +2,7 @@ import { AutoRouter, IRequest, StatusError } from "itty-router";
 import { D1QB } from "workers-qb";
 import { DbStoreTable } from "@/types/DbStoreTable";
 import { DbCommunityReportedCouponTable } from "@/types/DbCommunityReportedCouponTable";
+import { D1Query, sqlt } from "./db";
 
 export class StoreDatabase {
     private d1: D1Database;
@@ -16,21 +17,13 @@ export class StoreDatabase {
     }
 
     async queryStoresByDomain(domain: string) {
-        const { tableName, field } = DbStoreTable;
-
-        const qb = new D1QB(this.d1);
-        const result = await qb.fetchAll<DbStoreTable>({
-            tableName: tableName,
-            where: {
-                conditions: `${field.domain} = ?1`,
-                params: domain
-            }
-        }).execute();
-
-        if (!result.success)
-            throw new StatusError(500, "Database query error");
-
-        return result.results ?? [];
+        return await new D1Query(this.d1)
+            .execute(
+                sqlt.selectFrom("Store")
+                    .selectAll()
+                    .where("domain", "=", domain)
+            )
+            .then(res => res.results ?? []);
     }
 
     async queryStoreCouponById(id: string) {
@@ -38,21 +31,4 @@ export class StoreDatabase {
         throw new Error("Not Implemented");
     }
 
-    async queryCouponByHostname(domain: string) {
-        const { tableName, field } = DbCommunityReportedCouponTable;
-
-        const qb = new D1QB(this.d1);
-        const result = await qb.fetchAll<DbCommunityReportedCouponTable>({
-            tableName: tableName,
-            where: {
-                conditions: [`${field.hostname} = ?1`, `${field.storeId} = ?2`],
-                params: [domain, null]
-            }
-        }).execute();
-
-        if (!result.success)
-            throw new StatusError(500, "Database query error");
-
-        return result.results ?? [];
-    }
 }

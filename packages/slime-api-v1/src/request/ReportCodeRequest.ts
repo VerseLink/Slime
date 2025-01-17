@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { CouponMetadataSchema } from "@/CouponMetadata";
 
-export const ReportCodeRequestSchema = z.intersection(
+export const ReportCodeSchema = z.intersection(
     z.object({
         storeId: z.string(),
         reportedUrl: z.string().url(),
@@ -29,4 +29,4 @@ export const ReportCodeRequestSchema = z.intersection(
     ])
 );
 
-export type ReportCodeRequest = z.infer<typeof ReportCodeRequestSchema>;
+export type ReportCode = z.infer<typeof ReportCodeSchema>;

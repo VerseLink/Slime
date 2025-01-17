@@ -2,9 +2,7 @@ import { ApiQueryResponse } from "./ApiQueryResponse";
 import { OfferCodeInfo } from "./OfferCode";
 import { StoreSupportKind } from "./StoreSupportKind";
 
-export type QueryStoreByIdResponse = ApiQueryResponse<StoreResource>;
-
-type StoreResource = UnsupportedStoreResource | RecognizedStoreResource;
+export type StoreResource = UnsupportedStoreResource | RecognizedStoreResource;
 
 /**
  * Represents unsupported store. We do not recognize this store, but community has reported code for the domain.

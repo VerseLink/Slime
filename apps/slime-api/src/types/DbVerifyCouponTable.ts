@@ -1,15 +1,11 @@
 import { z } from "zod";
 import { DbTableSchema } from "@slime/util";
 
-export const DbCommunityReportedCouponTable = new DbTableSchema("CommunityReportedCoupon",
+export const DbVerifyCouponTable = new DbTableSchema("CommunityReportedCoupon",
     z.object({
         couponId: z.string(),
         type: z.literal("coupon").or(z.literal("redeem")),
-        storeId: z.string().nullable(),
-        userId: z.string().nullable(),
-        sessionId: z.string().nullable(),
-        urlPath: z.string(),
-        hostname: z.string(),
+        storeId: z.string(),
         code: z.string(),
         metadata: z.string(),
         description: z.string().nullable(),
@@ -19,4 +15,4 @@ export const DbCommunityReportedCouponTable = new DbTableSchema("CommunityReport
     })
 );
 
-export type DbCommunityReportedCouponTable = z.infer<typeof DbCommunityReportedCouponTable.schema>;
+export type DbVerifyCouponTable = z.infer<typeof DbVerifyCouponTable.schema>;

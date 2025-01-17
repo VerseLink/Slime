@@ -40,10 +40,15 @@ const router = AutoRouter<IRequest, [Env, ExecutionContext]>({
 	base: "/api/v1",
 	catch: apiError,
 	/**
-	format: (response) => {
+	format: (response, request) => {
+		// TODO: Add cache control? 'cache-control': `max-age=${options.maxAge}`
 		return json({
 			success: true,
 			result: response,
+		}, { 
+			headers: {
+				'cache-control': `max-age=${options.maxAge}`
+			}
 		});
 	},
 	// add finally so we can ask the client to properly cache some api result

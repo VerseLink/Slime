@@ -8,7 +8,9 @@
         "build": "tsc"
     },
     "exports": {
-        ".": "./src/index.ts"
+        ".": "./src/index.ts",
+        "./request": "./src/request/index.ts",
+        "./response": "./src/response/index.ts"
     },
     "devDependencies": {},
     "dependencies": {

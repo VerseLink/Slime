@@ -4,11 +4,30 @@ main = "src/index.ts"
 compatibility_date = "2024-12-30"
 compatibility_flags = ["nodejs_compat"]
 
+# Local Development Port
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#local-development-settings
+[dev]
+port = 8811
+
+# Import Rules
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#bundling
+rules = [
+    # Add rules to allow sql to be imported
+    { type = "Text", globs = ["**/*.sql"], fallthrough = true },
+]
+
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
+
+# Automatically place your workloads in an optimal location to minimize latency.
+# If you are running back-end logic in a Worker, running it closer to your back-end infrastructure
+# rather than the end user may result in better performance.
+# Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+[placement]
+mode = "smart"
 
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
@@ -17,12 +36,11 @@ binding = "COUPON_DB"
 database_name = "slime-coupon"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
-# Automatically place your workloads in an optimal location to minimize latency.
-# If you are running back-end logic in a Worker, running it closer to your back-end infrastructure
-# rather than the end user may result in better performance.
-# Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
-# [placement]
-# mode = "smart"
+# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
+[[kv_namespaces]]
+binding = "JWT_KEY_KV_STORE"
+id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Docs:
@@ -71,12 +89,6 @@ database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 # [[hyperdrive]]
 # binding = "MY_HYPERDRIVE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
-[[kv_namespaces]]
-binding = "JWT_KEY_KV_STORE"
-id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Bind an mTLS certificate. Use to present a client certificate when communicating with another service.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#mtls-certificates

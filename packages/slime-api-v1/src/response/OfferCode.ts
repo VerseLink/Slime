@@ -1,5 +1,5 @@
-import { CouponCodeMetadata } from "@/request/ReportCodeRequest";
-import { ApiQueryResponse } from "./ApiQueryResponse";
+import { CouponCodeMetadata } from "@/CouponMetadata";
+
 export type OfferCodeInfo = CouponCodeInfo | RedeemCodeInfo;
 
 type OfferSource =
