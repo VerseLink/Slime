@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const StoreSchema = z.object({
     storeId: z.string(),
-    baseUrlPart: z.string(),
+    urlRegex: z.string(),
     domain: z.string()
 });
 
