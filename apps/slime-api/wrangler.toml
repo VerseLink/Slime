@@ -4,17 +4,17 @@ main = "src/index.ts"
 compatibility_date = "2024-12-30"
 compatibility_flags = ["nodejs_compat"]
 
-# Local Development Port
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#local-development-settings
-[dev]
-port = 8811
-
 # Import Rules
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#bundling
 rules = [
     # Add rules to allow sql to be imported
-    { type = "Text", globs = ["**/*.sql"], fallthrough = true },
+    { type = "Text", globs = ["**/*.sql"], fallthrough = true }
 ]
+
+# Local Development Port
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#local-development-settings
+[dev]
+port = 8811
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/

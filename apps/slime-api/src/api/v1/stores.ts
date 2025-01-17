@@ -22,7 +22,7 @@ router.get("stores/list", async (request, env): Promise<StoreListItem[]> => {
 
     return stores.map(store => ({
         storeId: store.storeId,
-        urlPart: store.baseUrlPart,
+        urlPart: store.urlRegex,
     }));
 
 });

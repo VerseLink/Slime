@@ -1,6 +1,3 @@
-import { DbCommunityReportedCouponTable } from "@/types/DbCommunityReportedCouponTable";
-import { DbStoreTable } from "@/types/DbStoreTable";
-import { DbVerifyCouponTable } from "@/types/DbVerifyCouponTable";
 import { Compilable, CompiledQuery, DummyDriver, InferResult, Kysely, SqliteAdapter, SqliteIntrospector, SqliteQueryCompiler } from "kysely";
 import { SlimeDatabase } from "./types/SlimeDatabase";
 
