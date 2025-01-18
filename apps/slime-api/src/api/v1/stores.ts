@@ -1,8 +1,8 @@
 import { AutoRouter, IRequest, StatusError } from "itty-router";
 import { ApiResponse, ArrayUtil } from "@/util";
 import { CouponCodeInfo, StoreListItem, RedeemCodeInfo, StoreResource } from "@slime/api-v1/response";
-import { StoreDatabase } from "@/database/store";
-import { CouponCodeDatabase } from "@/database/coupon";
+import { StoreMetadataDatabase } from "@/database/metadata/storeMetadata";
+import { UnknownStoreId } from "@/database/store";
 
 export const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
 
@@ -17,7 +17,7 @@ function getDomainFromQuery(domainQuery: string | string[] | undefined) {
 router.get("stores/list", async (request, env): Promise<StoreListItem[]> => {
     // query database to get the domain
     const domain = getDomainFromQuery(request.query.domain);
-    const db = new StoreDatabase(env.COUPON_DB);
+    const db = new StoreMetadataDatabase(env.SLIME_DB);
     const stores = await db.getStoresByDomain(domain);
 
     return stores.map(store => ({
@@ -30,14 +30,14 @@ router.get("stores/list", async (request, env): Promise<StoreListItem[]> => {
 // Get a unsupported store by the domain, this allows people to report coupon from a website
 // but not neccessarily that we support this website
 router.get("stores/unknown", async (request, env): Promise<StoreResource> => {
-    const domain = getDomainFromQuery(request.query.domain);
+    const hostname = getDomainFromQuery(request.query.hostname);
 
-    const db = new CouponCodeDatabase(env.COUPON_DB);
-    const coupons = await db.getCommunityCodeByHostname(domain, { excludeKnownStores: true });
+    const db = env.STORE_DURABLE.get(env.STORE_DURABLE.idFromName(UnknownStoreId));
+    const coupons = await db.getCommunityCode({ matchHostname: hostname, expired: true });
 
     return {
         supportKind: "unsupported",
-        coupons: coupons.map(coupon => {
+        coupons: coupons.values().map((coupon): CouponCodeInfo | RedeemCodeInfo | undefined => {
             switch(coupon.type) {
                 case "coupon":
                     return {
@@ -66,8 +66,11 @@ router.get("stores/unknown", async (request, env): Promise<StoreResource> => {
                         sources: [], // unsupported
                         redeemItems: coupon.description !== null ? JSON.parse(coupon.description) : undefined,
                     } satisfies RedeemCodeInfo;
+                default:
+                    console.error(`Found unsupported coupon type ${coupon.type}`, coupon);
+                    return undefined;
             }
-        })
+        }).filter(x => x != null).toArray()
     };
 });
 

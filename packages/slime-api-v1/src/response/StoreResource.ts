@@ -22,5 +22,5 @@ type RecognizedStoreResource = {
     id: string;
     name: string;
     supportKind: StoreSupportKind.Recognized;
-    coupon: OfferCodeInfo[];
+    coupons: OfferCodeInfo[];
 }

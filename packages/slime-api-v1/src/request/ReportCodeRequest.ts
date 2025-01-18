@@ -3,11 +3,11 @@ import { CouponMetadataSchema } from "../CouponMetadata";
 
 export const ReportCodeSchema = z.intersection(
     z.object({
-        storeId: z.string(),
+        storeId: z.string().optional(),
         reportedUrl: z.string().url(),
         code: z.string(),
-        restrictions: z.string(),
-        expireAt: z.string().optional()
+        coditions: z.string(),
+        expireAt: z.number().optional()
     }),
     z.discriminatedUnion("type", [
         z.object({

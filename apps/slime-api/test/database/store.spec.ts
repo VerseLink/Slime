@@ -9,6 +9,6 @@ describe("Store database", () => {
     });
 
     it("should create store", () => {
-        expect(env.COUPON_DB.dump()).toBeNull();
+        expect(env.SLIME_DB.dump()).toBeNull();
     });
 });

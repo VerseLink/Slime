@@ -38,9 +38,11 @@ CREATE TABLE IF NOT EXISTS CommunityReportedCoupon (
     code TEXT NOT NULL,
 
     -- 參考 @slime/api-v1/CouponCodeMetadata，只有Coupon 才有
+    -- Metadata 一定是用 JSON 格式儲存
     metadata TEXT,
 
     -- 優惠內容描述，可以是字串，但如果是 RedeemCodeInfo 也能是 { item: string, imageUrl?: string, count: string }[]
+    -- Description 一定是用 JSON 格式儲存
     description TEXT,
 
     -- 優惠使用條件

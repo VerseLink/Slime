@@ -9,7 +9,7 @@ export const CommunityReportedCouponSchema = z.object({
     urlPath: z.string(),
     hostname: z.string(),
     code: z.string(),
-    metadata: z.string(),
+    metadata: z.string().nullable(),
     description: z.string().nullable(),
     conditions: z.string().nullable(),
     reportAt: z.number(),

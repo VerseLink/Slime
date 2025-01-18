@@ -9,12 +9,12 @@ describe("Database initialization", () => {
 
     beforeAll(async () => {
         const oneline = makeSqlOneLine(sql);
-        await env.COUPON_DB.exec(oneline);
+        await env.SLIME_DB.exec(oneline);
     })
 
 
     it("should include all required table", async () => {
-        const tables =  await env.COUPON_DB.prepare("PRAGMA table_list").bind().run<{name: string; ncol: number, schema: string}>();
+        const tables =  await env.SLIME_DB.prepare("PRAGMA table_list").bind().run<{name: string; ncol: number, schema: string}>();
         const requiredNames: (keyof SlimeDatabase)[] = [
             "VerifiedCoupon",
             "CommunityReportedCoupon",

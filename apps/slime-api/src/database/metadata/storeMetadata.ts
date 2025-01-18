@@ -1,7 +1,8 @@
 import { ArrayUtil } from "@/util";
-import { D1Query, sqlt } from ".";
+import { D1Query } from "@/database/query";
+import { sqlt } from "./SlimeDb";
 
-export class StoreDatabase {
+export class StoreMetadataDatabase {
     private d1: D1Database;
 
     constructor(d1: D1Database) {
@@ -24,7 +25,7 @@ export class StoreDatabase {
     async getStoresByDomain(domain: string) {
         return await new D1Query(this.d1)
             .execute(
-                sqlt.selectFrom("Store")
+                sqlt.selectFrom("StoreMetadata")
                     .selectAll()
                     .where("domain", "=", domain)
             )
@@ -34,7 +35,7 @@ export class StoreDatabase {
     async getStoreCouponById(id: string) {
         return await new D1Query(this.d1)
             .execute(
-                sqlt.selectFrom("Store")
+                sqlt.selectFrom("StoreMetadata")
                     .selectAll()
                     .where("storeId", "=", id)
                     .limit(1)

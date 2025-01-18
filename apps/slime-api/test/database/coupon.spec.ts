@@ -8,12 +8,12 @@ describe("Coupon database", () => {
 
     beforeAll(async () => {
         const oneline = makeSqlOneLine(sql);
-        await env.COUPON_DB.exec(oneline);
+        await env.SLIME_DB.exec(oneline);
     })
 
 
     it("should report coupon", async () => {
-        expect(await env.COUPON_DB.prepare("SELECT 123").run().then(x => x.results[0])).toBe(123);
+        expect(await env.SLIME_DB.prepare("SELECT 123").run().then(x => x.results[0])).toBe(123);
     });
 
 });

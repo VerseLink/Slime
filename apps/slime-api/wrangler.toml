@@ -32,7 +32,7 @@ mode = "smart"
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
 [[d1_databases]]
-binding = "COUPON_DB"
+binding = "SLIME_DB"
 database_name = "slime-coupon"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
@@ -41,6 +41,17 @@ database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 [[kv_namespaces]]
 binding = "JWT_KEY_KV_STORE"
 id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
+# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#durable-objects
+[[durable_objects.bindings]]
+name = "STORE_DURABLE"
+class_name = "StoreDurableObject"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["StoreDurableObject"]
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Docs:

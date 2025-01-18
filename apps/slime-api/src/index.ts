@@ -22,3 +22,5 @@ const worker: ExportedHandler<Env> = {
 };
 
 export default worker;
+
+export { StoreDurableObject } from "@/database/store";

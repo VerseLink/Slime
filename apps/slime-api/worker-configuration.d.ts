@@ -2,5 +2,10 @@
 
 interface Env {
 	JWT_KEY_KV_STORE: KVNamespace;
-	COUPON_DB: D1Database;
+	STORE_DURABLE: DurableObjectNamespace<import("./src/index").StoreDurableObject>;
+	SLIME_DB: D1Database;
+}
+declare module "*.sql" {
+	const value: string;
+	export default value;
 }
