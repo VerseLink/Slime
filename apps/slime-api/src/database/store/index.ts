@@ -4,19 +4,30 @@ import { ReportCode } from "@slime/api-v1/request";
 import { v7 } from "uuid";
 import { fromDb } from "..";
 import { StoreDatabase } from "./database";
-import { CommunityReportedCouponTable } from "./CommunityReportedCouponTable";
+import { CommunityCouponTable } from "./CommunityCouponTable";
 
-export const UnknownStoreId = "unknown";
+import migrationV1 from "./migrations/v1";
 
 const sqlt = fromDb<StoreDatabase>();
 
 export class StoreDurableObject extends DurableObjectSqlite {
 
+    constructor(state: DurableObjectState, env: Env) {
+        super(state, env);
+    }
+
+    protected override get migrations() { return [ migrationV1 ]; }
+
+    async init() {
+        await this.migrator.migrateToLatest();
+    }
+
     async addCommunityCode(source: ReportCode, reportedBy: UserOrAnonymousId) {
+        await this.init();
         const { hostname, pathname, search } = new URL(source.reportedUrl);
         const isRedeemCode = source.type === "redeem";
         const id = v7();
-        let dbCode: CommunityReportedCouponTable = {
+        let dbCode: CommunityCouponTable = {
             couponId: id,
             type: source.type,
             storeId: source.storeId ?? null,
@@ -34,7 +45,7 @@ export class StoreDurableObject extends DurableObjectSqlite {
             expireAt: source.expireAt ?? null,
         };
         const result = this.sql.execute(
-            sqlt.insertInto("CommunityReportedCoupon")
+            sqlt.insertInto("CommunityCoupon")
                 .values(dbCode)
         );
         console.log("Inserted new coupon to database", { rowsWritten: result.rowsWritten, source, reportedBy });
@@ -42,29 +53,34 @@ export class StoreDurableObject extends DurableObjectSqlite {
     }
 
     async addVerifiedCode() {
+        await this.init();
     }
 
     // 更新官方的優惠碼
     // 因為社群回報的優惠碼是 "回報" 我們不打算讓他們更動
     async updateVerifiedCode() {
+        await this.init();
 
     }
 
     // 回報使用者使用了一個Community Code
     async usedCommunityCode() {
+        await this.init();
 
     }
 
     // 回報使用者使用了一個Verified Code
     async useVerifiedCode() {
+        await this.init();
 
     }
 
     async removeCodeById(id: string) {
+        await this.init();
         // no need for transaction
         // because it exists in either on of the table
         const community = this.sql.execute(
-            sqlt.deleteFrom("CommunityReportedCoupon")
+            sqlt.deleteFrom("CommunityCoupon")
                 .where("couponId", "=", id)
         );
         if (community.rowsWritten > 0) {
@@ -72,7 +88,7 @@ export class StoreDurableObject extends DurableObjectSqlite {
             return { source: "community" };
         }
         const verified = this.sql.execute(
-            sqlt.deleteFrom("CommunityReportedCoupon")
+            sqlt.deleteFrom("CommunityCoupon")
                 .where("couponId", "=", id)
         );
         if (verified.rowsWritten > 0) {
@@ -84,7 +100,8 @@ export class StoreDurableObject extends DurableObjectSqlite {
 
     async getCommunityCode(options?: { matchHostname?: string, expired?: boolean, limit?: number }) {
 
-        let query = sqlt.selectFrom("CommunityReportedCoupon").selectAll();
+        await this.init();
+        let query = sqlt.selectFrom("CommunityCoupon").selectAll();
 
         if (options?.matchHostname != null) {
             query = query.where("hostname", "=", options?.matchHostname);
@@ -107,8 +124,9 @@ export class StoreDurableObject extends DurableObjectSqlite {
 
         return this.sql.execute(query).toArray();
     }
-    
+
     async getAllCode() {
+        await this.init();
         const verified = this.sql.execute(
             sqlt.selectFrom("VerifiedCoupon")
                 .selectAll()
@@ -118,7 +136,7 @@ export class StoreDurableObject extends DurableObjectSqlite {
                 ]))
         );
         const community = this.sql.execute(
-            sqlt.selectFrom("CommunityReportedCoupon")
+            sqlt.selectFrom("CommunityCoupon")
                 .selectAll()
                 .where(eq => eq.or([
                     eq("expireAt", "is", null), // 以後可能要限制一下太久沒人用的兌換碼要過濾掉
@@ -133,3 +151,5 @@ export class StoreDurableObject extends DurableObjectSqlite {
     }
 
 }
+
+export const UnknownStoreId = "unknown";

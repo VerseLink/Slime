@@ -52,6 +52,10 @@ export class DurableObjectSqliteQuery {
         return new SqlStorageCursorExt(cursor);
     }
 
+    raw<T extends Record<string, SqlStorageValue>>(raw: string) {
+        const cursor = this.storage.sql.exec<T>(raw);
+        return new SqlStorageCursorExt(cursor);
+    }
 }
 
 class SqlStorageCursorExt<T extends Record<string, SqlStorageValue>> extends Iterator<T, never | undefined, T> {
@@ -77,5 +81,12 @@ class SqlStorageCursorExt<T extends Record<string, SqlStorageValue>> extends Ite
 
     single() {
         return this.cursor.one();
+    }
+
+    singleOrNull() {
+        const next = this.cursor.next();
+        if (next.done)
+            return null;
+        return next.value;
     }
 }

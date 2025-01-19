@@ -1,6 +1,6 @@
 -- sqlite
 
-CREATE TABLE IF NOT EXISTS Store (
+CREATE TABLE IF NOT EXISTS StoreMetadata (
     storeId TEXT PRIMARY KEY,
     
     -- 網站Url使用的片段，譬如 shop.google.com/nexus/phone-model-123 而這個商店只存在在 shop.google.com/nexus 下的話，那只有 shop.google.com/nexus 才會被這邊儲存
@@ -18,9 +18,6 @@ CREATE TABLE IF NOT EXISTS CommunityReportedCoupon (
 
     -- 類別：coupon 或 redeem
     type TEXT NOT NULL CHECK(type IN ('coupon', 'redeem')),
-
-    -- 如果我們知道店家的ID 的話就放在這裡
-    storeId TEXT,
 
     -- 使用者 ID
     -- userId TEXT,

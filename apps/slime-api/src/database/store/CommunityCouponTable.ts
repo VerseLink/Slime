@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { nameof } from "./database";
 
-export const CommunityReportedCouponSchema = z.object({
+export const CommunityCouponSchema = z.object({
     couponId: z.string(),
     type: z.literal("coupon").or(z.literal("redeem")),
     storeId: z.string().nullable(),
@@ -16,4 +17,5 @@ export const CommunityReportedCouponSchema = z.object({
     expireAt: z.number().nullable(),
 });
 
-export type CommunityReportedCouponTable = z.infer<typeof CommunityReportedCouponSchema>;
+export type CommunityCouponTable = z.infer<typeof CommunityCouponSchema>;
+export const CommunityCoupon = nameof(CommunityCouponSchema);
