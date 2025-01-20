@@ -1,3 +1,4 @@
+import { IteratorExt } from "@/util";
 import { Compilable, CompiledQuery, InferResult } from "kysely";
 
 type ArrayElement<ArrayType extends readonly unknown[]> =
@@ -46,19 +47,27 @@ export class DurableObjectSqliteQuery {
         this.storage = storage;
     }
 
+    get tables() {
+        return this.raw<{ name: string }>("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%';").map(x => x.name);
+    }
+
+    get transaction() {
+        return this.storage.transaction.bind(this.storage);
+    }
+
     execute<T extends Record<string, SqlStorageValue>>(query: CompilableQuery<T> | CompiledQuery<T>) {
         const compiled = "compile" in query ? query.compile() : query;
         const cursor = this.storage.sql.exec<InferResultElement<CompiledQuery<T>>>(compiled.sql, compiled.parameters);
         return new SqlStorageCursorExt(cursor);
     }
 
-    raw<T extends Record<string, SqlStorageValue>>(raw: string) {
-        const cursor = this.storage.sql.exec<T>(raw);
+    raw<T extends Record<string, SqlStorageValue>>(raw: string, ...bindings: any[]) {
+        const cursor = this.storage.sql.exec<T>(raw, ...bindings);
         return new SqlStorageCursorExt(cursor);
     }
 }
 
-class SqlStorageCursorExt<T extends Record<string, SqlStorageValue>> extends Iterator<T, never | undefined, T> {
+class SqlStorageCursorExt<T extends Record<string, SqlStorageValue>> extends IteratorExt<T, never | undefined, T> {
 
     readonly cursor: SqlStorageCursor<T>;
 
@@ -88,5 +97,9 @@ class SqlStorageCursorExt<T extends Record<string, SqlStorageValue>> extends Ite
         if (next.done)
             return null;
         return next.value;
+    }
+
+    [Symbol.iterator]() {
+        return this;
     }
 }

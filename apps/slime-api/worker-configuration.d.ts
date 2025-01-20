@@ -3,6 +3,7 @@
 interface Env {
 	JWT_KEY_KV_STORE: KVNamespace;
 	STORE_DURABLE: DurableObjectNamespace<import("./src/index").StoreDurableObject>;
+	SLIME_DB_R2_BACKUP: R2Bucket;
 	SLIME_DB: D1Database;
 }
 declare module "*.sql" {

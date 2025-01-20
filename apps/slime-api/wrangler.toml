@@ -8,7 +8,7 @@ compatibility_flags = ["nodejs_compat"]
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#bundling
 rules = [
     # Add rules to allow sql to be imported
-    { type = "Text", globs = ["**/*.sql"], fallthrough = true }
+    { type = "Text", globs = ["**/*.sql"], fallthrough = true },
 ]
 
 # Local Development Port
@@ -33,8 +33,10 @@ mode = "smart"
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
 [[d1_databases]]
 binding = "SLIME_DB"
-database_name = "slime-coupon"
+database_name = "slime-db"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+migrations_table = "_db_migrations" # Customize this value to change your applied migrations table name
+migrations_dir = "./src/database/slime-d1/migrations" # Specify your custom migration directory
 
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
@@ -120,9 +122,9 @@ new_sqlite_classes = ["StoreDurableObject"]
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#r2-buckets
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "SLIME_DB_R2_BACKUP"
+bucket_name = "slime-db-backup"
 
 # Bind another Worker service. Use this binding to call another Worker without network overhead.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings

@@ -1,7 +1,7 @@
 import { AutoRouter, IRequest, StatusError } from "itty-router";
 import { ApiResponse, ArrayUtil } from "@/util";
 import { CouponCodeInfo, StoreListItem, RedeemCodeInfo, StoreResource } from "@slime/api-v1/response";
-import { StoreMetadataDatabase } from "@/database/metadata/storeMetadata";
+import { StoreMetadataDatabase } from "@/database/slime-d1/storeMetadata";
 import { UnknownStoreId } from "@/database/store";
 
 export const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });

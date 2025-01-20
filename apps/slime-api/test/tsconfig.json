@@ -7,6 +7,6 @@
 		"@": ["../src"],
 		"@/*": ["../src/*"],
 	},
-	"include": ["./**/*.ts", "../worker-configuration.d.ts", "./**/*.d.ts"],
+	"include": ["./**/*.ts", "../worker-configuration.d.ts", "./**/*.d.ts", "database/mock-do.ts-template"],
 	"exclude": []
 }

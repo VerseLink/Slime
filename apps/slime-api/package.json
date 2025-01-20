@@ -7,11 +7,13 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "test": "vitest",
+    "test:once": "vitest run",
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.2",
     "@cloudflare/workers-types": "^4.20241230.0",
+    "@faker-js/faker": "^9.4.0",
     "miniflare": "^3.20241230.1",
     "typescript": "^5.5.2",
     "vitest": "2.1.8",
