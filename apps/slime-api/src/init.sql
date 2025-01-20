@@ -1,6 +1,8 @@
 -- sqlite
 
 CREATE TABLE IF NOT EXISTS StoreMetadata (
+    entryId INT PRIMARY KEY AUTOINCREMENT,
+    
     storeId TEXT PRIMARY KEY,
     
     -- 網站Url使用的片段，譬如 shop.google.com/nexus/phone-model-123 而這個商店只存在在 shop.google.com/nexus 下的話，那只有 shop.google.com/nexus 才會被這邊儲存

@@ -1,6 +1,6 @@
 import { DurableObjectSqliteQuery } from "@/database/query";
 import { DurableObject } from "cloudflare:workers";
-import { DurableObjectSqlMigration, SqlMigrationScript, SqlSchemaMigration } from "./util/DurableObjectSqlMigration";
+import { DurableObjectSqlMigration, SqlSchemaMigration } from "./util/DurableObjectSqlMigration";
 
 export abstract class DurableObjectSqlite<TEnv = unknown> extends DurableObject<TEnv> {
 
@@ -24,13 +24,31 @@ export abstract class DurableObjectSqlite<TEnv = unknown> extends DurableObject<
         return this.sql.raw(`SELECT name FROM sqlite_master WHERE type='table' AND name='${this.migrator.tableName.version}'`).singleOrNull() !== null;
     }
 
+    /**
+     * Officially creates a Durable Object.
+     * Attempting to run other sql functions without creating or using existing DOs will likely result in error
+     */
+    async create() {
+        await this.migrator.migrateToLatest();
+    }
+
     async exists() {
-        return this.hasVersion();
+        if (!this.hasVersion())
+            return false;
+        await this.migrator.migrateToLatest();
+        return true;
     }
 
     async throwIfNotExist() {
-        if (this.hasVersion())
+        if (this.hasVersion()) {
+            await this.migrator.migrateToLatest();
             return;
+        }
+        await this.destory();
+    }
+
+    /** Destory this DO instance, warning, all data WILL be lost! */
+    async destory() {
         await this.ctx.storage.deleteAll();
         await this.ctx.storage.deleteAlarm();
         this.ctx.abort();

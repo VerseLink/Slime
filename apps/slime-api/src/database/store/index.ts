@@ -18,12 +18,7 @@ export class StoreDurableObject extends DurableObjectSqlite {
 
     protected override get migrations() { return [ migrationV1 ]; }
 
-    async init() {
-        await this.migrator.migrateToLatest();
-    }
-
     async addCommunityCode(source: ReportCode, reportedBy: UserOrAnonymousId) {
-        await this.init();
         const { hostname, pathname, search } = new URL(source.reportedUrl);
         const isRedeemCode = source.type === "redeem";
         const id = v7();
@@ -53,30 +48,25 @@ export class StoreDurableObject extends DurableObjectSqlite {
     }
 
     async addVerifiedCode() {
-        await this.init();
     }
 
     // 更新官方的優惠碼
     // 因為社群回報的優惠碼是 "回報" 我們不打算讓他們更動
     async updateVerifiedCode() {
-        await this.init();
 
     }
 
     // 回報使用者使用了一個Community Code
     async usedCommunityCode() {
-        await this.init();
 
     }
 
     // 回報使用者使用了一個Verified Code
     async useVerifiedCode() {
-        await this.init();
 
     }
 
     async removeCodeById(id: string) {
-        await this.init();
         // no need for transaction
         // because it exists in either on of the table
         const community = this.sql.execute(
@@ -99,8 +89,6 @@ export class StoreDurableObject extends DurableObjectSqlite {
     }
 
     async getCommunityCode(options?: { matchHostname?: string, expired?: boolean, limit?: number }) {
-
-        await this.init();
         let query = sqlt.selectFrom("CommunityCoupon").selectAll();
 
         if (options?.matchHostname != null) {
@@ -126,7 +114,6 @@ export class StoreDurableObject extends DurableObjectSqlite {
     }
 
     async getAllCode() {
-        await this.init();
         const verified = this.sql.execute(
             sqlt.selectFrom("VerifiedCoupon")
                 .selectAll()
