@@ -8,8 +8,6 @@ export default defineWorkersConfig({
 				main: "./test/index.ts",
 				wrangler: { configPath: './wrangler.toml' },
 				miniflare: {
-					kvNamespaces: ["JWT_KEY_KV_STORE"],
-					d1Databases: ["COUPON_DB"],
 					durableObjects: {
 						"MockSqlBackupDO": { className: "MockSqlBackupDo", useSQLite: true }
 					},
@@ -18,7 +16,7 @@ export default defineWorkersConfig({
 				}
 			},
 		},
-		includeSource: ['src/**/*.{js,ts,sql}']
+		includeSource: ['src/**/*.{js,ts}']
 	},
 	resolve: {
 		alias: {

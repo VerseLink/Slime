@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 describe('JWT test', () => {
 
     it('issueCertificate', async () => {
-        const jwtManager = new JWTManager(env, { defaultExpirySeconds: 10 });
+        const jwtManager = new JWTManager(env.JWT_KEY_KV_STORE, { defaultExpirySeconds: 10 });
         const certificate = await jwtManager.issueCertificate(new Date("2025-1-15Z"));
         expect(certificate).toMatchObject({
             isReadOnly: false,
@@ -21,7 +21,7 @@ describe('JWTManager', () => {
     let jwtManager: JWTManager;
 
     beforeEach(() => {
-        jwtManager = new JWTManager(env, { defaultExpirySeconds: 3600 }); // 默認 1 小時過期
+        jwtManager = new JWTManager(env.JWT_KEY_KV_STORE, { defaultExpirySeconds: 3600 }); // 默認 1 小時過期
     });
 
     it('should issue a certificate', async () => {
@@ -35,13 +35,6 @@ describe('JWTManager', () => {
         expect(cert.isRevoked).toBe(false);
     });
 
-    it('should issue a certificate and can be retrieved', async () => {
-        const cert = await jwtManager.issueCertificate();
-        const pool = await jwtManager.getCertificates();
-
-        expect(pool.some(x => x.id === cert.id)).toBe(true);
-    });
-
     it('should get newest certificate', async () => {
         await jwtManager.issueCertificate();
         await jwtManager.issueCertificate();
@@ -52,6 +45,13 @@ describe('JWTManager', () => {
         expect(cert).length(1);
         expect(certs).length(3);
         expect(cert[0].id).equal(newCert.id);
+    });
+
+    it('should issue a certificate and can be retrieved', async () => {
+        const cert = await jwtManager.issueCertificate();
+        const pool = await jwtManager.getCertificates();
+
+        expect(pool.some(x => x.id === cert.id)).toBe(true);
     });
 
     it('should sign and verify a token', async () => {
@@ -102,7 +102,7 @@ describe('JWTManager', () => {
     });
 
     it('should handle expired tokens correctly', async () => {
-        jwtManager = new JWTManager(env, { defaultExpirySeconds: 0.5 }); // 0.5 秒過期
+        jwtManager = new JWTManager(env.JWT_KEY_KV_STORE, { defaultExpirySeconds: 0.5 }); // 0.5 秒過期
         const cert = await jwtManager.issueCertificate();
         const payload = {
             iss: "BUGubird"

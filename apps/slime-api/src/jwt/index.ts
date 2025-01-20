@@ -17,8 +17,8 @@ export class JWTManager {
     private kvStore: KVNamespace;
     private defaultExpirySeconds: number;
 
-    constructor(env: Env, options?: { defaultExpirySeconds?: number }) {
-        this.kvStore = env.JWT_KEY_KV_STORE;
+    constructor(kv: KVNamespace, options?: { defaultExpirySeconds?: number }) {
+        this.kvStore = kv;
         this.defaultExpirySeconds = options?.defaultExpirySeconds ?? 262980;//262980一個月的總秒數
     }
 

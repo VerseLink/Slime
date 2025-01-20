@@ -51,6 +51,7 @@ export class DurableObjectSqlExport {
 						}
 						// 'string' escaped with 'stri''in''g' (= str'in'g)
 						if (typeof value === 'string') {
+                            // TODO: chunk this for better memory performance
 							await writer.write(`'${value.replace(/'/g, "''")}'`);
 							continue;
 						}
@@ -69,7 +70,6 @@ export class DurableObjectSqlExport {
 						await writer.write("'");
 					}
 					await writer.write(`);\n`);
-					//await writer.write(`INSERT INTO ${table.name} VALUES (${rowValues.join(', ')});\n`);
 				}
 
 				await writer.write('\n');
