@@ -1,0 +1,130 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "da63e33f-cac9-451e-bec4-f15cd8c8f3b2",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "JwtId": {
+      "name": "JwtId",
+      "columns": {
+        "jti": {
+          "name": "jti",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "initJti": {
+          "name": "initJti",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fromJti": {
+          "name": "fromJti",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "issuedAt": {
+          "name": "issuedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expiresAt": {
+          "name": "expiresAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "JwtId_fromJti_idx": {
+          "name": "JwtId_fromJti_idx",
+          "columns": [
+            "fromJti"
+          ],
+          "isUnique": true
+        },
+        "JwtId_initJti_idx": {
+          "name": "JwtId_initJti_idx",
+          "columns": [
+            "initJti"
+          ],
+          "isUnique": false
+        },
+        "JwtId_expireAt_idx": {
+          "name": "JwtId_expireAt_idx",
+          "columns": [
+            "expiresAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "JwtId_fromJti_JwtId_jti_fk": {
+          "name": "JwtId_fromJti_JwtId_jti_fk",
+          "tableFrom": "JwtId",
+          "tableTo": "JwtId",
+          "columnsFrom": [
+            "fromJti"
+          ],
+          "columnsTo": [
+            "jti"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "ServiceClaims": {
+      "name": "ServiceClaims",
+      "columns": {
+        "service": {
+          "name": "service",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "claims": {
+          "name": "claims",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

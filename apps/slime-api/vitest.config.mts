@@ -11,8 +11,6 @@ export default defineWorkersConfig({
 					durableObjects: {
 						"MockSqlBackupDO": { className: "MockSqlBackupDo", useSQLite: true }
 					},
-					cache: true,
-					cachePersist: true,
 				}
 			},
 		},

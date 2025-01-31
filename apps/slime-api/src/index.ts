@@ -11,16 +11,18 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-import router from "./router";
+import { default as apiV1 } from './api/v1';
+import { hono } from './api/hono';
+
+const app = hono().basePath('/api').route('/v1', apiV1);
 
 const worker: ExportedHandler<Env> = {
-
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		return await router.fetch(request, env, ctx);
-	}
-	
+		return await app.fetch(request, env, ctx);
+	},
 };
 
 export default worker;
 
-export { StoreDurableObject } from "@/database/store";
+export { StoreDurableObject } from '@/db/store';
+export { UserDurableObject } from '@/db/user';

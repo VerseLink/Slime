@@ -1,0 +1,26 @@
+{
+    "name": "@slime/jwt-kv",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc",
+        "test": "vitest",
+        "test:once": "vitest run"
+    },
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "devDependencies": {
+      "@cloudflare/vitest-pool-workers": "^0.5.2",
+      "@cloudflare/workers-types": "^4.20241230.0",
+      "miniflare": "^3.20241230.1",
+      "typescript": "^5.5.2",
+      "vitest": "2.1.8",
+      "wrangler": "^3.103.2"
+    },
+    "dependencies": {
+        "uuid": "^11.0.5"
+    }
+}

@@ -2,7 +2,12 @@
 
 interface Env {
 	JWT_KEY_KV_STORE: KVNamespace;
+	IS_DEV: true;
+	ENVIRONMENT: "dev";
+	GOOGLE_CLIENT_ID: string;
+	GOOGLE_CLIENT_SECRET: string;
 	STORE_DURABLE: DurableObjectNamespace<import("./src/index").StoreDurableObject>;
+	USER_DURABLE: DurableObjectNamespace<import("./src/index").UserDurableObject>;
 	SLIME_DB_R2_BACKUP: R2Bucket;
 	SLIME_DB: D1Database;
 }

@@ -1,0 +1,31 @@
+{
+  "name": "slime-account",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250121.0",
+    "drizzle-kit": "^0.30.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.2",
+    "wrangler": "^3.105.0"
+  },
+  "dependencies": {
+    "@slime/api-v1": "*",
+    "@slime/jwt-kv": "*",
+    "@slime/cf-sqlite": "*",
+    "@slime/util": "*",
+    "@tsndr/cloudflare-worker-jwt": "^3.1.3",
+    "dotenv": "^16.4.7",
+    "hono": "^4.6.17",
+    "kysely": "^0.27.5",
+    "drizzle-orm": "^0.38.4",
+    "openid-client": "^6.1.7",
+    "uuid": "^11.0.5"
+  }
+}

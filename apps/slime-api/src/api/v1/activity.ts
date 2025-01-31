@@ -1,18 +1,19 @@
 /**
  * This route records user activity that allows people to use or like / dislike a code
  */
+import { withPermission } from "./middleware/withPermission";
+import { communityCouponPermission } from "@/auth/permissions";
 
-import { AutoRouter, IRequest, StatusError } from "itty-router";
-import { withRole } from "./middleware/withRole";
+import { hono } from "@/api/hono";
 
-export const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
+export const router = hono();
 
 // 使用者已使用這個兌換碼
-router.put("/activity/code/applied", withRole(["anonymous"]), (request, env) => {
+router.put("/activity/code/applied", async (context) => {
 
 });
 
 // 使用者對這個兌換碼按讚或倒讚
-router.put("/activity/code/rate", (request, env) => {
+router.put("/activity/code/rate", async (context) => {
 
 });

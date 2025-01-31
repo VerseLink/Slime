@@ -1,0 +1,74 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "slime-accounts-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-01-21",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"preview_urls": true,
+	"placement": { "mode": "smart" },
+	"dev": {
+		"port": 8810
+	},
+	"rules": [
+		// Add rules to allow sql to be imported
+		{ "type": "Text", "globs": ["**/*.sql"], "fallthrough": true }
+	],
+	/*
+	"routes": [
+		{
+			"pattern": "dev.accounts.useslime.com/api/*",
+			"zone_name": "useslime.com"
+		},
+		{
+			"pattern": "dev.accounts.useslime.com/.well-known/*",
+			"zone_name": "useslime.com"
+		}
+	],
+	*/
+	"vars": {
+		"IS_DEV": true,
+		"ENVIRONMENT": "dev",
+		// 哪一些網站可以直接使用我們的帳號系統 (非透過 OAuth，原生支持的網站)
+		"WHITELIST_DOMAINS": ["https://useslime.com/", "http://localhost:5100"],
+		// 以後要把這個移到別的地方, 6個月後到期 (總計 6 * 30天)
+		"REFRESH_TOKEN_EXPIRES_IN_SECONDS": 15552000,
+		// 3 小時後到期
+		"ACCESS_TOKEN_EXPIRES_IN_SECONDS": 10800,
+		// How long will a JTI consider invalidate after a rotation happens
+		"REFRESH_TOKEN_JTI_TIME_SLEW_SECONDS": 30,
+		// How long will a new refresh token be issued upon request (otherwise it returns old token)
+		"REFRESH_TOKEN_ISSUE_AFTER_SECONDS": 900
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["UserDurableObject"]
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"class_name": "UserDurableObject",
+				"name": "USER_DURABLE"
+			}
+		]
+	},
+	"kv_namespaces": [
+		{
+			"binding": "JWT_KEY_KV_STORE",
+			"id": "xxxxxxxxxxxxxxxxxxxxx"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "USER_AUTH",
+			"database_id": "xxxxxxxxxxxxxxxxxxxxx",
+			"database_name": "slime-accounts",
+			"migrations_dir": "./src/db/.drizzle"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}

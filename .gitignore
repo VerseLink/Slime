@@ -1,9 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # Dependencies
-node_modules
-.pnp
+node_modules/
+.pnp/
 .pnp.js
+jspm_packages/
+web_modules/
+bower_components/
 
 # Local env files
 .env
@@ -11,28 +14,71 @@ node_modules
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Testing
-coverage
-
-# Turbo
-.turbo
-
-# Vercel
-.vercel
+.dev.vars
 
 # Build Outputs
 .next/
 out/
-build
-dist
+build/
+dist/
+.nuxt/
+.cache/
+.parcel-cache/
+.docusaurus/
+.vuepress/dist/
+.serverless/
+.turbo/
+.wrangler/
 
-
-# Debug
+# Logs & Debugging
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+report.[0-9]*.json
+node_repl_history
+
+# Diagnostic & Lock Files
+*.pid
+*.pid.lock
+*.seed
+.lock-wscript
+.tern-port
+
+# Coverage & Test Output
+coverage/
+*.lcov
+.nyc_output/
+
+# TypeScript & Linting Cache
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# Microbundle Cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
 
 # Misc
 .DS_Store
 *.pem
+.vscode-test/
+
+# Optional Yarn & npm cache
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.yarn-integrity
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release/
+
+# Optional Output of `npm pack`
+*.tgz

@@ -1,6 +1,13 @@
 {
-    "i18n-ally.localesPaths": [
-        "apps/slime-client/src/locales"
-    ],
-    "i18n-ally.keystyle": "nested"
+	"i18n-ally.localesPaths": ["apps/slime-client/src/locales"],
+	"i18n-ally.keystyle": "nested",
+	"files.watcherExclude": {
+		"**/routeTree.gen.ts": true
+	},
+	"search.exclude": {
+		"**/routeTree.gen.ts": true
+	},
+	"files.readonlyInclude": {
+		"**/routeTree.gen.ts": true
+	}
 }

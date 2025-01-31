@@ -1,0 +1,7 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "jwt-kv",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-01-21",
+	"compatibility_flags": ["nodejs_compat"]
+}

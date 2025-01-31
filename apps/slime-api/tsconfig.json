@@ -14,7 +14,7 @@
 		/* Specify how TypeScript looks up a file from a given module specifier. */
 		"moduleResolution": "Bundler",
 		/* Specify type package names to be included without being referenced in a source file. */
-		"types": ["@cloudflare/workers-types"],
+		"types": ["@cloudflare/workers-types", "node/buffer"],
 		/* Enable importing .json files */
 		"resolveJsonModule": true,
 
@@ -42,9 +42,9 @@
 			"@": ["./src"],
 			"@/*": ["./src/*"],
 			"~": ["."],
-			"~/*": ["./*"],
+			"~/*": ["./*"]
 		}
 	},
 	"exclude": ["test"],
-	"include": ["worker-configuration.d.ts", "src/**/*.ts"]
+	"include": ["worker-configuration.d.ts", "src/**/*.ts", "../../packages/cf-sqlite/src/DurableObjectSqlMigration.ts"]
 }

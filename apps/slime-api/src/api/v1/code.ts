@@ -4,17 +4,16 @@
  * 
  */
 
-import { AutoRouter, IRequest, StatusError } from "itty-router";
-import { withTurnstile } from "./middleware/withTurnstile";
+import { hono } from "@/api/hono";
 
-export const router = AutoRouter<IRequest, [Env, ExecutionContext]>({ base: "/api/v1" });
+export const router = hono();
 
 // 使用者上傳新的使用碼
-router.put("/code/submit", withTurnstile, (request, env) => {
+router.put("/code/submit", async (context) => {
     
 });
 
 // 使用者回報使用碼用字用冒犯的問題
-router.put("/code/flag", (request, env) => {
+router.put("/code/flag", async (context) => {
 
 });

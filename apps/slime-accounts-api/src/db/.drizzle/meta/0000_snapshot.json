@@ -1,0 +1,110 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "889fde4d-e533-4c33-a923-2b85958fbbd1",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "UserOAuth": {
+      "name": "UserOAuth",
+      "columns": {
+        "rowId": {
+          "name": "rowId",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "issuer": {
+          "name": "issuer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "issuedId": {
+          "name": "issuedId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "UserOAuth_INDEX_userId": {
+          "name": "UserOAuth_INDEX_userId",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        },
+        "UserOAuth_INDEX_issuedId": {
+          "name": "UserOAuth_INDEX_issuedId",
+          "columns": [
+            "issuedId"
+          ],
+          "isUnique": false
+        },
+        "UserOAuth_INDEX_issuer_issuedId": {
+          "name": "UserOAuth_INDEX_issuer_issuedId",
+          "columns": [
+            "issuer",
+            "issuedId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "UserOAuth_userId_UserId_userId_fk": {
+          "name": "UserOAuth_userId_UserId_userId_fk",
+          "tableFrom": "UserOAuth",
+          "tableTo": "UserId",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "UserId": {
+      "name": "UserId",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

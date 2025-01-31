@@ -1,0 +1,108 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "slime-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-01-20",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"preview_urls": true,
+	"placement": { "mode": "smart" },
+
+	// Import Rules
+	// Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#bundling
+	"rules": [
+		// Add rules to allow sql to be imported
+		{ "type": "Text", "globs": ["**/*.sql"], "fallthrough": true }
+	],
+
+	// Local Development Port
+	// Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#local-development-settings
+	"dev": {
+		"port": 8811
+	},
+
+	// Allow cloudflare to log all the console.log
+	// Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+
+	// Development arguments
+	// Please override these with each environment
+	"route": {
+		"pattern": "dev.useslime.com/api/*",
+		"zone_name": "dev.useslime.com"
+	},
+	"vars": {
+		"IS_DEV": true,
+		"ENVIRONMENT": "dev"
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["StoreDurableObject", "UserDurableObject"]
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "STORE_DURABLE",
+				"class_name": "StoreDurableObject"
+			},
+            {
+                "name": "USER_DURABLE",
+                "class_name": "UserDurableObject"
+            }
+		]
+	},
+	"kv_namespaces": [
+		{
+			"binding": "JWT_KEY_KV_STORE",
+			"id": "xxxxxxxxxxxxxxxxxxxxx"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "SLIME_DB",
+			"database_name": "slime-db-dev",
+			"database_id": "xxxxxxxx-xxxx-xxxx-xxxxxxxxxx",
+			"migrations_table": "_db_migrations", // Customize this value to change your applied migrations table name
+			"migrations_dir": "./src/database/slime-d1/migrations"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "SLIME_DB_R2_BACKUP",
+			"bucket_name": "slime-db-backup"
+		}
+	]
+
+	// Environment specifics
+    /*
+    TODO: set up the environment specifics once deployment is required
+	"env": {
+		"stagging": {
+			"vars": {
+				"IS_DEV": true,
+				"ENVIRONMENT": "dev"
+			},
+			"kv_namespaces": [
+				{
+					"binding": "JWT_KEY_KV_STORE",
+					"id": "xxxxxxxxxxxxxxxxxxxxx"
+				}
+			]
+		},
+		"production": {
+			"observability": {
+				"enabled": true,
+				// 1 means 100% and we want everything logged
+				// change this to like 0.01 (1%) logged if it's costing too much ($0.6/million logs)
+				// Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#pricing
+				"head_sampling_rate": 1
+			}
+		}
+	}
+    */
+}

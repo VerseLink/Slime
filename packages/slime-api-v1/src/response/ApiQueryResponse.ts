@@ -5,5 +5,6 @@ export type ApiQueryResponse<T> = {
 
 export type ApiQueryFailedResponse = {
     success: false;
-    error: string;
+    error?: string;
+    [key: string]: unknown;
 };
