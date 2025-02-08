@@ -1,0 +1,73 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "897da8ec-24ba-4b21-bbc3-f7f615356e11",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "SubmittedCode": {
+      "name": "SubmittedCode",
+      "columns": {
+        "entryId": {
+          "name": "entryId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "storeId": {
+          "name": "storeId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "SubmittedCode_storeId_FK": {
+          "name": "SubmittedCode_storeId_FK",
+          "tableFrom": "SubmittedCode",
+          "tableTo": "UserInteractedStore",
+          "columnsFrom": [
+            "storeId"
+          ],
+          "columnsTo": [
+            "storeId"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "UserInteractedStore": {
+      "name": "UserInteractedStore",
+      "columns": {
+        "storeId": {
+          "name": "storeId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

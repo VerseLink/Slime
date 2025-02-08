@@ -1,0 +1,19 @@
+{
+    "name": "@slime/api-t",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc"
+    },
+    "exports": {
+        "./v1/client": "./src/v1/client.ts",
+        "./v1/server": "./src/v1/server.ts"
+    },
+    "devDependencies": {},
+    "dependencies": {
+        "zod": "^3.24.1",
+        "hono": "^4.6.20"
+    }
+}

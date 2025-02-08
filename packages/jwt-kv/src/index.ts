@@ -52,7 +52,7 @@ export class JWTManager {
         const cert = await this.getCertificateById(kid);
         if (cert == null || cert.isRevoked)
             return null;
-        const result = await jwt.verify<T>(token, cert.publicKey, { algorithm: "RS256" });
+        const result = await jwt.verify<T>(token, cert.publicKey, { algorithm: "RS256", throwError: false });
         return result?.payload ?? null;
     }
 

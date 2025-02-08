@@ -33,9 +33,11 @@ export type RefreshTokenResult =
 			};
 	  };
 
-export class UserDurableObject extends DurableObject<Env> {
+export class UserDurableObject extends DurableObjectSqliteBase<Env> {
 
-	private sql = new DurableSqliteQuery(this.ctx.storage, migrations);
+	protected override get migrations() {
+		return migrations;
+	}
 
 	private getNewestTokenGeneratedFromJti(jti: string) {
 		const fromToken = this.sql
@@ -129,7 +131,7 @@ export class UserDurableObject extends DurableObject<Env> {
 		originalJti: string,
 		service: string,
 	): Promise<RefreshTokenResult> {
-		this.sql.migrateToLatest();
+		this.migration.migrateToLatest();
 		try {
 			return this.sql.transactionSync(() => {
 				this.cleanExpiredToken();
@@ -187,7 +189,7 @@ export class UserDurableObject extends DurableObject<Env> {
 	}
 
 	issueRefreshToken(service: string, request: Request) {
-		this.sql.migrateToLatest();
+		this.migration.migrateToLatest();
 		return this.sql.transactionSync(() => {
 			this.cleanExpiredToken();
 			const result = this.issueRefreshTokenInternal(request);
@@ -196,7 +198,7 @@ export class UserDurableObject extends DurableObject<Env> {
 	}
 
 	getClaims(service: string) {
-		this.sql.migrateToLatest();
+		this.migration.migrateToLatest();
 		const claims =
 			this.sql
 				.execute(
@@ -208,7 +210,7 @@ export class UserDurableObject extends DurableObject<Env> {
 	}
 
 	updateClaims(service: string, claims: Claims | ((source: Claims) => Promise<Claims>)) {
-		this.sql.migrateToLatest();
+		this.migration.migrateToLatest();
 		return this.sql.transaction(async () => {
 			if (typeof claims === 'function') {
 				let prevClaims = this.getClaims(service);

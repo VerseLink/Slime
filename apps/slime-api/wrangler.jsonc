@@ -76,6 +76,13 @@
 			"binding": "SLIME_DB_R2_BACKUP",
 			"bucket_name": "slime-db-backup"
 		}
+	],
+	"workflows": [
+		{
+			"name": "slime-add-coupon",
+			"binding": "ADD_COUPON",
+			"class_name": "AddCouponWorkflow"
+		}
 	]
 
 	// Environment specifics

@@ -1,16 +1,15 @@
-import { Hono } from "hono";
+import { User } from "@/user";
+import { ContextVariableMap, Hono } from "hono";
 
-export const hono = () => new Hono<HonoInterface>();
+export const hono = <T extends object | undefined = ContextVariableMap>() => new Hono<EnvBindings<T>>();
 
-export type HonoInterface = {
+export type EnvBindings<T extends object | undefined = ContextVariableMap> = {
 	Bindings: Env,
-	Variables: {
-
-	}
+	Variables: T,
 };
 
 declare module 'hono' {
 	interface ContextVariableMap {
-		GoogleOAuth: {}
+		user?: User;
 	}
 }

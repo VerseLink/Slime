@@ -15,6 +15,16 @@ export namespace ArrayUtil {
 		return array.length === 0 ? defaultValue : array[0];
 	}
 
+	export function includes<T>(item: T | T[] | undefined, value: T) {
+		if (item == null)
+			return false;
+		if (item === value)
+			return true;
+		if (!Array.isArray(item))
+			return false;
+		return item.some(x => x === value);
+	}
+
 	class Range extends IteratorExt<number, undefined, number> {
 		current: number;
 		end: number;
@@ -38,4 +48,7 @@ export namespace ArrayUtil {
 	export function range(start: number, end: number) {
 		return new Range(start, end);
 	}
+
 }
+
+export type ArrayValue<TArray> = TArray extends Array<infer A> ? A : never;

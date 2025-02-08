@@ -8,5 +8,7 @@ export class UserDurableObject extends DurableObjectSqliteBase {
 
 	protected get migrations() { return migrations; }
 
+	getIdHash(): string {
 
+	}
 }
