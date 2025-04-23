@@ -3,7 +3,7 @@ import { v7 } from 'uuid';
 import { DurableObjectSqliteBase, fromSqlite } from '@slime/cf-sqlite';
 import { StoreDb } from './schema';
 import migrations from './.drizzle/migrations';
-import { AddCoupon, UserCheckout, CouponQueryResult, ReportCouponAbuse } from './coupon';
+import { AddCoupon, UserCheckout, CouponQueryResult, ReportCouponAbuse, PartialContent } from './coupon';
 import { DateTimeUtc } from '@slime/util';
 import { User } from '../user';
 import { storePermission } from './permission';
@@ -14,6 +14,10 @@ const sqlt = fromSqlite<StoreDb>();
 type DbType<T> = {
 	[P in keyof T]: T[P] extends ColumnType<infer A, any, any> ? A : never;
 };
+
+export interface StoreMetadata {
+	scriptUrl?: string;
+}
 
 export class StoreDurableObject extends DurableObjectSqliteBase<Env> {
 	constructor(state: DurableObjectState, env: Env) {
@@ -116,6 +120,14 @@ export class StoreDurableObject extends DurableObjectSqliteBase<Env> {
 		} satisfies CouponQueryResult;
 	}
 
+	async getMetadata() {
+		return await this.ctx.storage.get<StoreMetadata>('metadata');
+	}
+
+	async setMetadata(metadata: StoreMetadata) {
+		await this.ctx.storage.put('metadata', metadata);
+	}
+
 	async addCoupon(user: User, report: AddCoupon) {
 		const { hostname, pathname, search } = new URL(report.reportedUrl);
 		const id = v7();
@@ -195,11 +207,11 @@ export class StoreDurableObject extends DurableObjectSqliteBase<Env> {
 		this.sql.execute(sqlt.deleteFrom('Coupon').where('entryId', '=', id));
 	}
 
-	getCoupons(options?: { expired?: boolean; limit?: number; cursor?: string }): CouponQueryResult[] {
+	getCoupons(options?: { expired?: boolean; limit?: number; cursor?: string }): PartialContent<CouponQueryResult> {
 		let query = sqlt.selectFrom('Coupon').selectAll().orderBy('entryId desc');
 
 		if (options?.cursor) {
-			query = query.where('entryId', '<', options.cursor);
+			query = query.where('entryId', '<=', options.cursor);
 		}
 
 		if (!options?.expired) {
@@ -211,16 +223,20 @@ export class StoreDurableObject extends DurableObjectSqliteBase<Env> {
 			);
 		}
 
-		if (options?.limit) {
-			query = query.limit(options?.limit);
+		if (options?.limit != null) {
+			query = query.limit(options?.limit + 1);
 		}
 
-		return this.sql.transactionSync(() => {
+		const coupons = this.sql.transactionSync(() => {
 			return this.sql
 				.execute(query)
-				.map((coupon) => this.getCouponInternal(coupon))
 				.toArray();
 		});
+
+		return {
+			cursor: options?.limit == null ? undefined : coupons.length > options.limit ? coupons.at(-1)?.entryId : undefined,
+			content: coupons.slice(0, -1).map((coupon) => this.getCouponInternal(coupon)),
+		};
 	}
 
 	getCoupon(entryId: string): CouponQueryResult {

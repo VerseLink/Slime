@@ -1,3 +1,4 @@
+import { TimeSpan } from "@slime/util";
 import jwt, { JwtPayload } from "@tsndr/cloudflare-worker-jwt";
 import { v7 as uuidV7 } from "uuid";
 
@@ -19,7 +20,7 @@ export class JWTManager {
 
     constructor(kv: KVNamespace, options?: { defaultExpirySeconds?: number }) {
         this.kvStore = kv;
-        this.defaultExpirySeconds = options?.defaultExpirySeconds ?? 262980;//262980一個月的總秒數
+        this.defaultExpirySeconds = options?.defaultExpirySeconds ?? TimeSpan.fromDay(28).totalSeconds;
     }
 
     async sign<T>(payload: JwtPayload<T>, certificateId?: string): Promise<string> {

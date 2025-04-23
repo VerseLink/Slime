@@ -1,4 +1,6 @@
-export abstract class IteratorExt<T, TReturn = any, TNext = any> extends Iterator<T, TReturn, TNext> {
+
+export abstract class IteratorExt<T, TResult= undefined, TNext = unknown> extends Iterator<T, TResult, TNext> {
+	
 	single() {
 		let single = this.singleOrNull();
 		if (single == null) throw new Error('Expected exactly one value, but got none');

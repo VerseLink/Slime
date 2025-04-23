@@ -9,6 +9,10 @@ export class StoreMetadataDatabase {
         this.d1 = d1;
     }
 
+    async matchStoreByUrl(url: string): Promise<boolean> {
+
+    }
+
     async createStore() {
         // TODO: Implement
         throw new Error("Not Implemented");

@@ -1,0 +1,19 @@
+{
+    "name": "@slime/runtime",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc"
+    },
+    "exports": {
+        ".": "./src/index.ts",
+        "./v1": "./src/v1/index.ts",
+        "./v1/global": "./src/v1/global.d.ts"
+    },
+    "dependencies": {
+        "type-fest": "^4.35.0",
+        "@slime/util": "*"
+    }
+}

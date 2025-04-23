@@ -1,10 +1,11 @@
-import { hono } from '@/api/hono';
-import { StoreBasicData } from '@/store/permission';
+import { StoreBasicData } from '#store/permission';
 import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
 import psl from 'psl';
-import { signedIn } from '../middleware/authorization';
 
+/**
+ * Middleware to extract the storeId from the url (?url={url})
+ */
 export const urlToStoreId = createMiddleware<{ Variables: { store: StoreBasicData } }>(async (c, next) => { 
 	const url = c.req.param('url');
     if (!url) {
@@ -27,6 +28,9 @@ export const urlToStoreId = createMiddleware<{ Variables: { store: StoreBasicDat
     await next();
 });
 
+/**
+ * Middleware to extract the storeId from the url (?storeId={storeId})
+ */
 export const storeMiddleware = createMiddleware<{ Variables: { store: StoreBasicData } }>(async (c, next) => {
     const storeId = c.req.param('storeId');
     if (!storeId) {

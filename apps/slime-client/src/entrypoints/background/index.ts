@@ -1,43 +1,42 @@
-import { supportedSites } from "@/utils/placeholder";
-import { ExtensionIcon } from "./ExtensionIcon";
+import { supportedSites } from '@/utils/placeholder';
+import { ExtensionIcon } from './ExtensionIcon';
+import { client } from '@/lib/client';
 
 export default defineBackground(() => {
-    chrome.tabs.onCreated.addListener((tab) => setIconStatusByTab(tab));
-    chrome.tabs.onUpdated.addListener((_, __, tab) => setIconStatusByTab(tab));
-
-    chrome.tabs.onActivated.addListener((activeInfo) => {
-        chrome.tabs.get(activeInfo.tabId, tab => setIconStatusByTab(tab));
-    });
+	browser.tabs.onCreated.addListener((tab) => setIconStatusByTab(tab));
+	browser.tabs.onUpdated.addListener((_, __, tab) => setIconStatusByTab(tab));
+	browser.tabs.onActivated.addListener((activeInfo) => {
+		browser.tabs.get(activeInfo.tabId, (tab) => setIconStatusByTab(tab));
+	});
+	browser.windows.onFocusChanged.addListener(windowId => {
+		// no focused window
+		if (windowId === browser.windows.WINDOW_ID_NONE) {
+			return;
+		}
+		browser.tabs.query({ active: true, currentWindow: true }, tabs => {
+			if (tabs.length <= 0)
+				return;
+			setIconStatusByTab(tabs[0]);
+		});
+	})
 });
 
 async function isSiteSupported(tabUrl: string) {
-    const url = new URL(tabUrl);
-    if (url.protocol !== "https:" && url.protocol !== "http:")
+	const url = new URL(tabUrl);
+	if (url.protocol !== 'https:' && url.protocol !== 'http:') {
         return false;
-    
-    // import.meta.env.MODE === "development"
-    const baseUrl = import.meta.env.VITE_ENDPOINT;
-    const apiUrl = new URL(`/api/v1/code?domain=${encodeURIComponent(url.hostname)}`, baseUrl);
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok)
-            return false;
-        const data = await response.json();
-        console.info(data, response.headers.get('cache-control'));
-        return data.length !== 0;
     }
-    catch (error: unknown) {
-        console.log(error, apiUrl);
-        throw error;
-    }
+	const res = await client.stores.$get({ query: { domain: url.hostname } });
+    return res.ok && (await res.json()).length !== 0;
 }
 
 async function setIconStatusByTab(tab: chrome.tabs.Tab) {
-    if (tab.url == null || tab.url === "")
-        return;
-    if (!await isSiteSupported(tab.url)) {
-        ExtensionIcon.setInactive({ text: "X" });
-        return;
-    }
-    ExtensionIcon.setActive({ text: "1" });
+	if (tab.url == null || tab.url === '') {
+		return;
+	}
+	if (await isSiteSupported(tab.url)) {
+		ExtensionIcon.setActive({ text: '1' });
+		return;
+	}
+	ExtensionIcon.setInactive({ text: 'X' });
 }

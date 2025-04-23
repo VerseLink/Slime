@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
+    "deploy": "tsc -p tsconfig.build.json && wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "test": "vitest",
@@ -20,12 +20,24 @@
     "vitest": "2.1.8",
     "wrangler": "^3.103.2"
   },
+  "imports": {
+    "#*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*.js",
+      "./src/*.jsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx",
+      "./src/*/index.js",
+      "./src/*/index.jsx"
+    ]
+  },
   "exports": {
     "./v1/client": "./src/api/v1/client.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.2",
-    "@slime/api-v1": "*",
     "@slime/cf-sqlite": "*",
     "@slime/auth": "*",
     "@slime/jwt-kv": "*",

@@ -79,6 +79,11 @@ export type CouponQueryResult = {
 	  }
 );
 
+export type PartialContent<T> = {
+	cursor?: string;
+	content: T[];
+}
+
 export type ReportCouponAbuseCategory = ReportCouponAbuse["category"];
 
 export const reportCouponAbuseSchema = z.object({

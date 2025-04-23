@@ -19,7 +19,6 @@
     "wrangler": "^3.105.0"
   },
   "dependencies": {
-    "@slime/api-v1": "*",
     "@slime/cf-sqlite": "*",
     "@slime/jwt-kv": "*",
     "@slime/util": "*",

@@ -1,4 +1,4 @@
-import { User } from "@/user";
+import { User } from "#user";
 import { ContextVariableMap, Hono } from "hono";
 
 export const hono = <T extends object | undefined = ContextVariableMap>() => new Hono<EnvBindings<T>>();

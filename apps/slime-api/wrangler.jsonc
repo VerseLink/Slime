@@ -7,6 +7,7 @@
 	"workers_dev": false,
 	"preview_urls": true,
 	"placement": { "mode": "smart" },
+	"upload_source_maps": true,
 
 	// Import Rules
 	// Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#bundling

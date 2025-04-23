@@ -1,0 +1,26 @@
+{
+  "name": "@slime/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "tsc -p tsconfig.build.json && wrangler deploy",
+    "dev": "wrangler dev",
+    "watch": "tsc -p ./scripts/tsconfig.json",
+    "start": "wrangler dev",
+    "test": "vitest",
+    "test:once": "vitest run",
+    "types": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.5.2",
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "concurrently": "^9.1.2",
+    "miniflare": "^3.20241230.1",
+    "typescript": "^5.5.2",
+    "vitest": "2.1.8",
+    "wrangler": "^3.103.2"
+  },
+  "dependencies": {
+    "@slime/runtime": "*"
+  }
+}

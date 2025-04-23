@@ -18,6 +18,8 @@
 		/* Enable importing .json files */
 		"resolveJsonModule": true,
 
+		"composite": true,
+
 		/* Allow JavaScript files to be a part of your program. Use the `checkJS` option to get errors from these files. */
 		"allowJs": true,
 		/* Enable error reporting in type-checked JavaScript files. */
@@ -38,13 +40,10 @@
 
 		/* Skip type checking all .d.ts files. */
 		"skipLibCheck": true,
-		"paths": {
-			"@": ["./src"],
-			"@/*": ["./src/*"],
-			"~": ["."],
-			"~/*": ["./*"]
-		}
+        "paths": {
+            "#*": ["./src/*"]
+        }
 	},
 	"exclude": ["test"],
-	"include": ["worker-configuration.d.ts", "src/**/*.ts", "../../packages/cf-sqlite/src/DurableObjectSqlMigration.ts"]
+	"include": ["worker-configuration.d.ts", "src/**/*.ts", "src/**/*.js"]
 }

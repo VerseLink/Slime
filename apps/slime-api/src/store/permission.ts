@@ -1,5 +1,5 @@
-import { Permission } from "@/permission";
-import { SlimeRoles, User } from "@/user";
+import { Permission } from "#permission";
+import { SlimeRoles, User } from "#user";
 import { CouponSource } from "./coupon";
 
 export type StoreBasicData = {

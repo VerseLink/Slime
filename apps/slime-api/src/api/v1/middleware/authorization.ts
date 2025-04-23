@@ -1,5 +1,5 @@
-import { EnvBindings } from '@/api/hono';
-import { SlimeRoles, User } from '@/user';
+import { EnvBindings } from '#api/hono';
+import { SlimeRoles, User } from '#user';
 import { zValidator } from '@hono/zod-validator';
 import { JWTManager } from '@slime/jwt-kv';
 import { createMiddleware } from 'hono/factory';

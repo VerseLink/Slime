@@ -1,26 +1,22 @@
-import { hono } from '@/api/hono';
-import { jsonFormatter } from './middleware/jsonFormatter';
+import { hono } from '../hono';
 
 import { router as stores } from './stores';
 import { HTTPException } from 'hono/http-exception';
+//import { hc } from 'hono/client';
 
-const router = hono().basePath('/api/v1');
-
-router.use(jsonFormatter);
-router.onError((err, c) => {
-	if (err instanceof HTTPException) {
-		if (c.env.ENVIRONMENT === 'dev') {
-			console.error(err);
+export default hono()
+	.basePath('/api/v1')
+	.onError((err, c) => {
+		if (err instanceof HTTPException) {
+			if (c.env.ENVIRONMENT === 'dev') {
+				console.error(err);
+			}
+			if (err.res) {
+				return err.res;
+			}
+			return c.json({ success: false, error: err.message }, err.status);
 		}
-		if (err.res) {
-			return err.res;
-		}
-		return c.json({ success: false, error: err.message }, err.status);
-	}
-	console.error(err);
-	return c.json({ success: false, error: 'Internal Server Error' }, 500);
-});
-
-router.route('/stores', stores);
-
-export default router;
+		console.error(err);
+		return c.json({ success: false, error: 'Internal Server Error' }, 500);
+	})
+	.route('/stores', stores);

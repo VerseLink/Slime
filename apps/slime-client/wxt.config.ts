@@ -20,10 +20,18 @@ export default defineConfig({
 					"https://*/*"
 				],
 				"resources": [
-					"widget/*"
+					"widget/*",
+					"sandbox.html",
+					"sandbox-runtime.js"
 				]
 			}
-		]
+		],
+		content_security_policy: {
+			sandbox: "sandbox allow-scripts allow-forms allow-popups allow-modals; default-src null * 'unsafe-eval' 'wasm-unsafe-eval' 'unsafe-inline'; script-src null * 'unsafe-inline' 'unsafe-eval';"
+		},
+		sandbox: {
+			pages: ["sandbox.html"]
+		}
 	},
 	images: [
 		{

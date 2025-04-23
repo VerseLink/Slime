@@ -1,10 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import { supportedSites } from "@/utils/placeholder";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from 'react';
 
 import { App } from './App';
 
 import './style.css';
+import { ContainerContext } from './Container';
 
 export default defineContentScript({
     matches: [
@@ -19,10 +21,11 @@ export default defineContentScript({
     async main(ctx) {
         if (!supportedSites.has(new URL(window.location.href).hostname))
             return;
+        const queryClient = new QueryClient();
         const ui = await createShadowRootUi(ctx, {
             name: "slime-widget",
             mode: "closed",
-            position: "modal",
+            position: "overlay",
             anchor: "body",
             onMount: (container) => {
                 const app = document.createElement('div');
@@ -31,7 +34,11 @@ export default defineContentScript({
                 const root = createRoot(app);
                 root.render(
                     <React.StrictMode>
-                        <App />
+                        <QueryClientProvider client={queryClient}>
+                            <ContainerContext value={container}>
+                                <App />
+                            </ContainerContext>
+                        </QueryClientProvider>
                     </React.StrictMode>
                 );
                 return { root, app };

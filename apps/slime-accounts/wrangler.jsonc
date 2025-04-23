@@ -1,5 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "slime-accounts",
-	"pages_build_output_dir": "./dist"
+	"pages_build_output_dir": "./dist",
+	"upload_source_maps": true
 }

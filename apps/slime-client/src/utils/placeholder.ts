@@ -1,1 +1,1 @@
-export const supportedSites = new Set(["example.com"]);
+export const supportedSites = new Set(["example.com", "www.namecheap.com"]);

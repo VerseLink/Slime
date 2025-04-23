@@ -1,0 +1,40 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "slime-scripts",
+	"compatibility_date": "2025-01-20",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"preview_urls": true,
+	"placement": { "mode": "smart" },
+	"upload_source_maps": true,
+	
+	"assets": {
+		"directory": "./public/"
+	},
+
+	// Local Development Port
+	// Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#local-development-settings
+	"dev": {
+		"port": 8812
+	},
+
+	// Allow cloudflare to log all the console.log
+	// Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+
+	// Development arguments
+	// Please override these with each environment
+	"route": {
+		"pattern": "static-assets.useslime.com/*",
+		"zone_name": "useslime.com"
+	},
+	
+	"build": {
+		"command": "npm run watch",
+		"cwd": "scripts",
+		"watch_dir": "scripts"
+	}
+}

@@ -11,6 +11,6 @@ const worker: ExportedHandler<Env> = {
 
 export default worker;
 
-export { StoreDurableObject } from '@/store';
-export { UserDurableObject } from '@/user/index';
-export { AddCouponWorkflow } from "@/workflows/addCoupon";
+export { StoreDurableObject } from '#/store';
+export { UserDurableObject } from '#/user/index';
+export { AddCouponWorkflow } from "#/workflows/addCoupon";

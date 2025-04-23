@@ -11,23 +11,23 @@ import { ReactNode } from "react";
 import { Link } from "react-router";
 import { Separator } from "@/components/ui/separator";
 
-export default function Index() {
-  const Pill = (args: { children: ReactNode, active?: boolean }) => {
-    if (args.active)
-      return (
-        <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 bg-zinc-300 text-zinc-800">{args.children}</button>
-      );
+function FilterPill(args: { children: ReactNode, active?: boolean }) {
+  if (args.active)
     return (
-      <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 text-zinc-300">{args.children}</button>
-    )
-  };
+      <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 bg-zinc-300 text-zinc-800">{args.children}</button>
+    );
+  return (
+    <button className="p-1.5 px-2.5 border rounded-lg border-zinc-800 text-zinc-300">{args.children}</button>
+  )
+}
 
+export default function Index() {
   return (
     <>
       <SiteNotSupported />
       <div className="flex w-full gap-2 px-3 my-3 text-xs font-bold">
-        <Pill active>{i18n.t("code.featured")}</Pill>
-        <Pill>{i18n.t("code.unverified")}</Pill>
+        <FilterPill active>{i18n.t("code.featured")}</FilterPill>
+        <FilterPill>{i18n.t("code.unverified")}</FilterPill>
         <div className="flex items-center gap-0.5 ml-auto text-xs font-normal">
           <HoverTooltip tip={i18n.t("code.refresh")}>
             <div className="p-1.5 cursor-pointer rounded-lg border-zinc-800">
